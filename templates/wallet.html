@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet | QODEX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/wallet.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>QODEX Wallet</h1>
+        <h2>Balance: <span id="balance">{{ balance }}</span> QODEX</h2>
+
+        <p>Connect your wallet to manage your QODEX balance.</p>
+
+        <div class="wallet-buttons">
+            <button id="connect-telegram">Connect Telegram Wallet</button>
+            <button id="connect-tonkeeper">Connect Tonkeeper</button>
+        </div>
+
+        <p class="info">Withdraw & Deposit options coming soon...</p>
+    </div>
+
+    {% include 'navbar.html' %}
+
+    <script src="{{ url_for('static', filename='js/wallet.js') }}"></script>
+
+</body>
+</html>

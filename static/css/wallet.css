@@ -1,0 +1,98 @@
+/* Umumiy sahifa uslubi */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: url("../images/background.jpg") no-repeat center center/cover;
+    color: white;
+    margin: 0;
+    padding-bottom: 60px; /* Navbar uchun joy qoldiramiz */
+}
+
+/* Asosiy konteyner */
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    background: rgba(0, 0, 0, 0.8); /* Shaffof qora fon */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Sarlavhalar */
+h1 {
+    color: #FFD700; /* Oltin rang */
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #FFA500; /* To‘q sariq */
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Matn */
+p {
+    font-size: 16px;
+    color: #ddd;
+    margin-bottom: 10px;
+}
+
+/* Hamyon tugmalari qutisi */
+.wallet-buttons {
+    margin-top: 20px;
+}
+
+/* Tugmalar */
+.wallet-buttons button {
+    display: block;
+    width: 80%;
+    max-width: 300px;
+    padding: 12px;
+    margin: 10px auto;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease, transform 0.2s;
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Telegram Wallet tugmasi */
+#connect-telegram {
+    background: #0088cc;
+    color: white;
+}
+
+/* Tonkeeper Wallet tugmasi */
+#connect-tonkeeper {
+    background: #32a852;
+    color: white;
+}
+
+/* Tugma hover effekti */
+.wallet-buttons button:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+/* Qo‘shimcha ma’lumot */
+.info {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #bbb;
+}
+
+/* Mobil versiya */
+@media (max-width: 480px) {
+    .container {
+        width: 90%;
+        margin-top: 30px;
+    }
+
+    .wallet-buttons button {
+        font-size: 16px;
+        padding: 10px;
+    }
+}
