@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | QODEX</title>
-    
     <!-- CSS fayllarni yuklash -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
@@ -12,71 +11,73 @@
 </head>
 <body>
 
-    <!-- Navbar -->
-    {% include 'navbar.html' %}
+<!-- Navbar -->
+{% include 'navbar.html' %}
 
-    <div class="container">
-        <h1>Welcome, {{ username }}!</h1>
-        <h2>Balance: <span id="balance">{{ balance }}</span> QODEX</h2>
+<div class="container">
+    <h1>Welcome, {{ username }}!</h1>
+    <h2>Balance: <span id="balance">{{ balance }}</span> QODEX</h2>
 
-        <!-- Tanga bosish maydoni -->
-        <div class="circle">
-            <img src="{{ url_for('static', filename='images/coin.png') }}" class="rotating-coin" id="coin">
-        </div>
-
-        <button id="claim-btn" disabled>Claim 1000 QODEX</button>
-        <p id="timer">Next claim in <span id="countdown">--:--</span></p>
+    <!-- Tanga bosish maydoni -->
+    <div class="circle">
+        <img src="{{ url_for('static', filename='images/coin.png') }}" class="rotating-coin" id="coin">
     </div>
 
-    <!-- JavaScript fayllarni yuklash -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let claimBtn = document.getElementById("claim-btn");
-            let countdown = document.getElementById("countdown");
-            let balanceElement = document.getElementById("balance");
+    <button id="claim-btn" disabled>Claim 1000 QODEX</button>
+    <p id="timer">Next claim in <span id="countdown">--:--</span></p>
+</div>
 
-            function startCountdown(remainingTime) {
-                function updateTimer() {
-                    if (remainingTime <= 0) {
-                        claimBtn.disabled = false;
-                        countdown.innerText = "00:00";
-                        return;
-                    }
-                    let minutes = Math.floor(remainingTime / 60);
-                    let seconds = remainingTime % 60;
-                    countdown.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                    remainingTime--;
-                    setTimeout(updateTimer, 1000);
-                }
-                updateTimer();
+<!-- JavaScript -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let claimBtn = document.getElementById("claim-btn");
+    let countdown = document.getElementById("countdown");
+    let balanceElement = document.getElementById("balance");
+
+    function startCountdown(remainingTime) {
+        function updateTimer() {
+            if (remainingTime <= 0) {
+                claimBtn.disabled = false;
+                countdown.innerText = "00:00";
+                return;
             }
+            let minutes = Math.floor(remainingTime / 60);
+            let seconds = remainingTime % 60;
+            countdown.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            remainingTime--;
+            setTimeout(updateTimer, 1000);
+        }
+        updateTimer();
+    }
 
-            fetch("{{ url_for('claim') }}", { method: "POST" })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        balanceElement.innerText = data.balance;
-                        claimBtn.disabled = true;
-                        startCountdown(3600);
-                    } else {
-                        claimBtn.disabled = true;
-                        startCountdown(data.remaining_time);
-                    }
-                });
-
-            claimBtn.addEventListener("click", function () {
-                fetch("{{ url_for('claim') }}", { method: "POST" })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            balanceElement.innerText = data.balance;
-                            claimBtn.disabled = true;
-                            startCountdown(3600);
-                        }
-                    });
-            });
+    // Foydalanuvchining oxirgi claim vaqti tekshiriladi
+    fetch("{{ url_for('claim') }}", { method: "POST" })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                balanceElement.innerText = data.balance;
+                claimBtn.disabled = true;
+                startCountdown(3600);
+            } else {
+                claimBtn.disabled = true;
+                startCountdown(data.remaining_time);
+            }
         });
-    </script>
+
+    // Claim tugmasi bosilganda
+    claimBtn.addEventListener("click", function () {
+        fetch("{{ url_for('claim') }}", { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    balanceElement.innerText = data.balance;
+                    claimBtn.disabled = true;
+                    startCountdown(3600);
+                }
+            });
+    });
+});
+</script>
 
 </body>
 </html>
