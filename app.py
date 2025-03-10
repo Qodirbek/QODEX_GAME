@@ -3,8 +3,8 @@ import time
 import random
 import string
 
-app = Flask(__name__)
-app.secret_key = "supersecretkey"
+app = Flask(__name__)  # Flask ilovasini yaratish
+app.secret_key = "supersecretkey"  # Sessiyalar uchun maxfiy kalit
 
 # Foydalanuvchilar ma'lumotlarini saqlash
 users = {}
@@ -17,15 +17,15 @@ def generate_random_name():
 def home():
     """Asosiy sahifa (Token ishlash sahifasi)"""
     session.permanent = True  # Sessiyani saqlash
-    
+
     if "user_id" not in session:
         session["user_id"] = generate_random_name()
 
     user_id = session["user_id"]
-    
+
     # Agar user bo‘lmasa, avtomatik qo‘shish
     user_data = users.setdefault(user_id, {"balance": 0, "last_claim": int(time.time()), "referral": None})
-    
+
     return render_template("home.html", username=user_id, balance=user_data["balance"])
 
 @app.route('/earn')
@@ -56,7 +56,7 @@ def claim():
         users[user_id]["balance"] += 1000
         users[user_id]["last_claim"] = current_time
         return jsonify({"success": True, "balance": users[user_id]["balance"], "next_claim": 3600})
-    
+
     return jsonify({"success": False, "remaining_time": remaining_time})
 
 @app.route('/wallet')
@@ -64,10 +64,10 @@ def wallet():
     """Foydalanuvchi hamyoni"""
     if "user_id" not in session:
         return redirect(url_for("home"))
-    
+
     user_id = session["user_id"]
     balance = users[user_id]["balance"]
-    
+
     return render_template("wallet.html", username=user_id, balance=balance)
 
 @app.route('/admin')
@@ -83,7 +83,7 @@ def refer():
     referrer_id = request.args.get("ref")
     if not referrer_id or referrer_id not in users:
         return redirect(url_for("home"))
-    
+
     if "user_id" not in session:
         session["user_id"] = generate_random_name()
 
@@ -92,7 +92,7 @@ def refer():
     # Agar user allaqachon mavjud bo‘lsa va referal olmagan bo‘lsa
     if users[user_id]["referral"] is None and user_id != referrer_id:
         users[user_id]["referral"] = referrer_id
-        users[referrer_id]["balance"] += 5000  
+        users[referrer_id]["balance"] += 5000
 
     return redirect(url_for("home"))
 
@@ -103,9 +103,9 @@ def tasks():
         return jsonify({"success": False, "message": "Foydalanuvchi aniqlanmadi!"})
 
     user_id = session["user_id"]
-    
+
     # Masalan, biror kanalga obuna bo‘lsa 2000 token oladi
-    users[user_id]["balance"] += 2000  
+    users[user_id]["balance"] += 2000
 
     return jsonify({"success": True, "balance": users[user_id]["balance"]})
 
