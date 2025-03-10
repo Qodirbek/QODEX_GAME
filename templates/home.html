@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | QODEX</title>
+    
     <!-- CSS fayllarni yuklash -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
@@ -23,8 +24,15 @@
         <img src="{{ url_for('static', filename='images/coin.png') }}" class="rotating-coin" id="coin">
     </div>
 
-    <button id="claim-btn" disabled>Claim 1000 QODEX</button>
-    <p id="timer">Next claim in <span id="countdown">--:--</span></p>
+    <!-- Claim tugmasi -->
+    <button id="claim-btn" {% if farming %}disabled{% endif %}>
+        {% if farming %} ⏳ Farming in Progress... {% else %} Claim 1000 QODEX {% endif %}
+    </button>
+
+    <!-- Taymer -->
+    <p id="timer" {% if not farming %}style="display: none;"{% endif %}>
+        Next claim in <span id="countdown">{{ remaining_time // 60 }}:{{ '%02d' % (remaining_time % 60) }}</span>
+    </p>
 </div>
 
 <!-- JavaScript -->
@@ -32,13 +40,40 @@
 document.addEventListener("DOMContentLoaded", function () {
     let claimBtn = document.getElementById("claim-btn");
     let countdown = document.getElementById("countdown");
+    let timerText = document.getElementById("timer");
     let balanceElement = document.getElementById("balance");
 
+    let remainingTime = {{ remaining_time }};
+    
+    if (remainingTime > 0) {
+        startCountdown(remainingTime);
+    }
+
+    async function claimTokens() {
+        try {
+            let response = await fetch("{{ url_for('routes.claim') }}", { method: "POST" });
+            let data = await response.json();
+            
+            if (data.success) {
+                balanceElement.innerText = data.balance;
+                claimBtn.innerText = "⏳ Farming in Progress...";
+                claimBtn.disabled = true;
+                startCountdown(3600);
+            } else {
+                startCountdown(data.remaining_time);
+            }
+        } catch (error) {
+            console.error("Xatolik yuz berdi:", error);
+        }
+    }
+
     function startCountdown(remainingTime) {
+        timerText.style.display = "block";
         function updateTimer() {
             if (remainingTime <= 0) {
+                claimBtn.innerText = "Claim 1000 QODEX";
                 claimBtn.disabled = false;
-                countdown.innerText = "00:00";
+                timerText.style.display = "none";
                 return;
             }
             let minutes = Math.floor(remainingTime / 60);
@@ -50,31 +85,10 @@ document.addEventListener("DOMContentLoaded", function () {
         updateTimer();
     }
 
-    // Foydalanuvchining oxirgi claim vaqti tekshiriladi
-    fetch("{{ url_for('claim') }}", { method: "POST" })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                balanceElement.innerText = data.balance;
-                claimBtn.disabled = true;
-                startCountdown(3600);
-            } else {
-                claimBtn.disabled = true;
-                startCountdown(data.remaining_time);
-            }
-        });
-
-    // Claim tugmasi bosilganda
     claimBtn.addEventListener("click", function () {
-        fetch("{{ url_for('claim') }}", { method: "POST" })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    balanceElement.innerText = data.balance;
-                    claimBtn.disabled = true;
-                    startCountdown(3600);
-                }
-            });
+        if (!claimBtn.disabled) {
+            claimTokens();
+        }
     });
 });
 </script>
