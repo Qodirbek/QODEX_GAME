@@ -1,12 +1,15 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     console.log("Wallet page loaded.");
 
-    // Hamyon ulash tugmalari
-    document.getElementById("connect-telegram").addEventListener("click", function () {
-        alert("Telegram Wallet ulanishi hozircha mavjud emas.");
-    });
+    const walletAddressElement = document.getElementById("wallet-address");
 
-    document.getElementById("connect-tonkeeper").addEventListener("click", function () {
-        alert("Tonkeeper Wallet ulanishi hozircha mavjud emas.");
-    });
+    // Hamyon ulash funksiyasi hozircha qo'shilmagan, shuning uchun UI faqat "Coming Soon..." deb chiqadi
+    function updateUI() {
+        if (walletAddressElement) {
+            walletAddressElement.textContent = "Coming Soon...";
+        }
+    }
+
+    // Sahifa yuklanganda UI-ni yangilash
+    updateUI();
 });
