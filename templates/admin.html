@@ -2,21 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | QODEX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
-    <h1>Admin Panel</h1>
-    <table>
-        <tr>
-            <th>Username</th>
-            <th>Balance</th>
-        </tr>
-        {% for user, data in users.items() %}
-        <tr>
-            <td>{{ user }}</td>
-            <td>{{ data.balance }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="admin-container">
+        <h1>Admin Panel</h1>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Balance</th>
+                    <th>Wallet Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user, data in users.items() %}
+                <tr>
+                    <td>{{ user }}</td>
+                    <td>{{ data.balance }}</td>
+                    <td>{{ data.wallet_address }}</td>
+                    <td>
+                        <button class="delete-btn" data-id="{{ user }}">Delete</button>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">No users found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
 </body>
 </html>
