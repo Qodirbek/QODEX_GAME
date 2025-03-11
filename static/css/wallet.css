@@ -1,98 +1,143 @@
-/* Umumiy sahifa uslubi */
+/* Sahifa uslubi */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     text-align: center;
-    background: url("../images/background.jpg") no-repeat center center/cover;
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
     color: white;
     margin: 0;
-    padding-bottom: 60px; /* Navbar uchun joy qoldiramiz */
+    padding-bottom: 70px; /* Pastki navbar uchun joy qoldiramiz */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 /* Asosiy konteyner */
-.container {
+.wallet-container {
+    width: 90%;
     max-width: 400px;
-    margin: 50px auto;
-    background: rgba(0, 0, 0, 0.8); /* Shaffof qora fon */
+    background: rgba(0, 0, 0, 0.85);
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Sarlavhalar */
-h1 {
+.wallet-title {
     color: #FFD700; /* Oltin rang */
-    font-size: 30px;
+    font-size: 28px;
     margin-bottom: 10px;
 }
 
-h2 {
-    color: #FFA500; /* To‘q sariq */
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* Matn */
-p {
-    font-size: 16px;
-    color: #ddd;
-    margin-bottom: 10px;
-}
-
-/* Hamyon tugmalari qutisi */
-.wallet-buttons {
-    margin-top: 20px;
-}
-
-/* Tugmalar */
-.wallet-buttons button {
-    display: block;
-    width: 80%;
-    max-width: 300px;
-    padding: 12px;
-    margin: 10px auto;
+/* Balans bloki */
+.balance-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px auto;
     font-size: 18px;
     font-weight: bold;
+    color: #FFD700;
+}
+
+/* Wallet tugmalari */
+.wallet-btn {
+    background: linear-gradient(90deg, #32a852, #0088cc);
+    color: white;
+    font-size: 18px;
+    padding: 12px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: 0.3s ease, transform 0.2s;
-    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.15);
+    width: 85%;
+    max-width: 320px;
+    margin: 20px auto;
+    display: block;
 }
 
-/* Telegram Wallet tugmasi */
-#connect-telegram {
-    background: #0088cc;
-    color: white;
-}
-
-/* Tonkeeper Wallet tugmasi */
-#connect-tonkeeper {
-    background: #32a852;
-    color: white;
-}
-
-/* Tugma hover effekti */
-.wallet-buttons button:hover {
+.wallet-btn:hover {
     opacity: 0.9;
     transform: scale(1.05);
 }
 
-/* Qo‘shimcha ma’lumot */
-.info {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #bbb;
+#disconnect-wallet {
+    background: #cc0000;
+    display: none;
 }
 
-/* Mobil versiya */
+#disconnect-wallet:hover {
+    opacity: 0.9;
+}
+
+/* Wallet ma’lumot qismi */
+#wallet-info {
+    display: none;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+#wallet-address {
+    font-weight: bold;
+    color: #FFD700;
+}
+
+/* Pastki navigatsiya */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 12px 0;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0 -2px 10px rgba(255, 255, 255, 0.1);
+}
+
+.nav-btn {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-btn.active {
+    background: #FFD700;
+    color: black;
+}
+
+/* Animatsiyalar */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobil moslik */
 @media (max-width: 480px) {
-    .container {
+    .wallet-container {
         width: 90%;
         margin-top: 30px;
     }
 
-    .wallet-buttons button {
-        font-size: 16px;
-        padding: 10px;
+    .nav-btn {
+        font-size: 14px;
+        padding: 8px 15px;
     }
 }
