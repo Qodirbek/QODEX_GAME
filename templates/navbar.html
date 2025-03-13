@@ -1,0 +1,11 @@
+<div class="navbar">
+    <a href="{{ url_for('routes.home') }}" class="nav-button">🏠 Home</a>
+    
+    {% if url_for('routes.earn', _external=False) is not none %}
+        <a href="{{ url_for('routes.earn') }}" class="nav-button">💰 Earn</a>
+    {% else %}
+        <a href="#" class="nav-button disabled">💰 Earn</a>
+    {% endif %}
+    
+    <a href="{{ url_for('routes.wallet') }}" class="nav-button">👛 Wallet</a>
+</div>

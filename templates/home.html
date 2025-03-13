@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | QODEX</title>
+    
+    <!-- CSS fayllarni yuklash -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+</head>
+<body>
+
+<!-- Navbar -->
+{% include 'navbar.html' %}
+
+<div class="container">
+    <h1>Welcome, {{ username }}!</h1>
+    <h2>Balance: <span id="balance">{{ balance }}</span> QODEX</h2>
+
+    <!-- Tanga bosish maydoni -->
+    <div class="circle">
+        <img src="{{ url_for('static', filename='images/coin.png') }}" class="rotating-coin" id="coin">
+    </div>
+
+    <!-- Claim tugmasi -->
+    <button id="claim-btn" {% if farming %}disabled{% endif %}>
+        {% if farming %} ⏳ Farming in Progress... {% else %} Claim 1000 QODEX {% endif %}
+    </button>
+
+    <!-- Taymer -->
+    <p id="timer" {% if not farming %}style="display: none;"{% endif %}>
+        Next claim in <span id="countdown">{{ remaining_time // 60 }}:{{ '%02d' % (remaining_time % 60) }}</span>
+    </p>
+</div>
+
+<!-- JavaScript -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let claimBtn = document.getElementById("claim-btn");
+    let countdown = document.getElementById("countdown");
+    let timerText = document.getElementById("timer");
+    let balanceElement = document.getElementById("balance");
+
+    let remainingTime = {{ remaining_time }};
+    
+    if (remainingTime > 0) {
+        startCountdown(remainingTime);
+    }
+
+    async function claimTokens() {
+        try {
+            let response = await fetch("{{ url_for('routes.claim') }}", { method: "POST" });
+            let data = await response.json();
+            
+            if (data.success) {
+                balanceElement.innerText = data.balance;
+                claimBtn.innerText = "⏳ Farming in Progress...";
+                claimBtn.disabled = true;
+                startCountdown(3600);
+            } else {
+                startCountdown(data.remaining_time);
+            }
+        } catch (error) {
+            console.error("Xatolik yuz berdi:", error);
+        }
+    }
+
+    function startCountdown(remainingTime) {
+        timerText.style.display = "block";
+        function updateTimer() {
+            if (remainingTime <= 0) {
+                claimBtn.innerText = "Claim 1000 QODEX";
+                claimBtn.disabled = false;
+                timerText.style.display = "none";
+                return;
+            }
+            let minutes = Math.floor(remainingTime / 60);
+            let seconds = remainingTime % 60;
+            countdown.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            remainingTime--;
+            setTimeout(updateTimer, 1000);
+        }
+        updateTimer();
+    }
+
+    claimBtn.addEventListener("click", function () {
+        if (!claimBtn.disabled) {
+            claimTokens();
+        }
+    });
+});
+</script>
+
+</body>
+</html>

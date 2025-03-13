@@ -1,0 +1,94 @@
+/* === Admin paneli umumiy dizayni === */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #eef1f7;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* === Admin konteyneri === */
+.admin-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 25px;
+    background: #ffffff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow-x: auto;
+}
+
+/* === Jadval dizayni === */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.admin-table th {
+    background-color: #3498db;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.admin-table tr:hover {
+    background-color: #f2f8ff;
+    transition: 0.3s;
+}
+
+.admin-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* === Tugma dizayni === */
+button {
+    padding: 8px 15px;
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+}
+
+button:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* === Media queries (Responsive) === */
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 15px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}

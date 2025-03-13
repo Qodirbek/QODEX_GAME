@@ -1,0 +1,40 @@
+<!-- templates/tasks.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks | QODEX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Complete Tasks & Earn QODEX</h1>
+
+        <div class="tasks-list">
+            <div class="task">
+                <p>📺 <b>Watch Ad & Earn 1,000 QODEX</b></p>
+                <button class="task-btn" id="watch-ad-btn">Watch Now</button>
+            </div>
+
+            <div class="task">
+                <p>📢 <b>Join QODEX Telegram</b></p>
+                <button class="task-btn" onclick="window.open('https://t.me/QODEX_COIN', '_blank')">Join Now</button>
+            </div>
+
+            <!-- Yangi vazifalarni qo'shish uchun -->
+            {% for task in tasks %}
+            <div class="task">
+                <p>🔹 <b>{{ task.name }}</b></p>
+                <button class="task-btn" onclick="window.open('{{ task.link }}', '_blank')">Do Task</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% include 'navbar.html' %}
+
+    <script src="{{ url_for('static', filename='js/tasks.js') }}"></script>
+</body>
+</html>
