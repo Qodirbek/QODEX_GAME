@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet | QODEX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/wallet.css') }}">
+    
+    <!-- TonConnect SDK -->
+    <script src="https://unpkg.com/@tonconnect/sdk@latest"></script>
+</head>
+
+<body>
+
+    <!-- Wallet Container -->
+    <div class="wallet-container">
+        <h1 class="wallet-title">QODEX Wallet</h1>
+
+        <!-- Wallet Connection Section -->
+        <div id="wallet-info" class="wallet-info" style="display: none;">
+            <p><strong>Wallet Address:</strong></p>
+            <p id="wallet-address">---</p>
+        </div>
+
+        <!-- Wallet Action Buttons -->
+        <div class="wallet-buttons">
+            <button id="connect-wallet" class="wallet-btn">Connect Wallet</button>
+            <button id="disconnect-wallet" class="wallet-btn" style="display: none;">Disconnect Wallet</button>
+        </div>
+
+        <!-- Transaction Section -->
+        <div class="transaction-box">
+            <button id="send-ton" class="wallet-btn" disabled>
+                Send 0.5 TON
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="/" class="nav-btn">Home</a>
+        <a href="/earn" class="nav-btn">Earn</a>
+        <a href="/wallet" class="nav-btn active">Wallet</a>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/wallet.js') }}"></script>
+
+</body>
+</html>

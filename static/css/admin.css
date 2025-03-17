@@ -1,0 +1,125 @@
+/* === Umumiy admin panel dizayni === */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #eef1f7;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+/* === Sarlavha === */
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 26px;
+}
+
+/* === Admin konteyneri === */
+.admin-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 25px;
+    background: #ffffff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow-x: auto;
+    border: 1px solid #dcdde1;
+}
+
+/* === Jadval dizayni === */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.admin-table th {
+    background-color: #3498db;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.admin-table td {
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.admin-table tr:hover {
+    background-color: #f2f8ff;
+    transition: 0.3s;
+}
+
+.admin-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* === Tugmalar dizayni === */
+button {
+    padding: 10px 15px;
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    display: inline-block;
+}
+
+button:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+}
+
+button:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* === Jadval bo‘sh bo‘lsa, markazda matn chiqish uchun === */
+.no-users {
+    text-align: center;
+    font-size: 16px;
+    color: #7f8c8d;
+    padding: 20px;
+}
+
+/* === Media queries (Mobil moslashuv) === */
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 15px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    button {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+
+/* === Jadvalni skroll qilish uchun moslashuv === */
+@media (max-width: 600px) {
+    .admin-container {
+        overflow-x: auto;
+    }
+
+    .admin-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}

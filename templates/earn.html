@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn | QODEX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/earn.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Earn QODEX</h1>
+        <h2>Balance: <span id="balance">{{ balance }}</span> QODEX</h2>
+
+        <!-- Referral System -->
+        <div class="referral-section">
+            <h3>Invite Friends & Earn Rewards!</h3>
+            <p>Share your referral link and earn <b>10,000 QODEX</b> when they join using your link.</p>
+            <div class="referral-box">
+                <input type="text" id="ref-link" value="{{ referral_link }}" readonly>
+                <button id="copy-btn">Copy</button>
+            </div>
+            <p>Or share directly: <a href="{{ referral_link }}" target="_blank">{{ referral_link }}</a></p>
+        </div>
+
+        <!-- Tasks Section -->
+        <div class="tasks-section">
+            <h3>Complete Tasks & Earn More!</h3>
+
+            <!-- Dynamic Tasks from tasks.html -->
+            <div id="tasks-container">
+                {% include 'tasks.html' %}
+            </div>
+
+        </div>
+    </div>
+
+    {% include 'navbar.html' %}
+
+    <script src="{{ url_for('static', filename='js/earn.js') }}"></script>
+
+    <script>
+        // Copy referral link function
+        document.getElementById("copy-btn").addEventListener("click", function() {
+            let refInput = document.getElementById("ref-link");
+            refInput.select();
+            document.execCommand("copy");
+            alert("Referral link copied!");
+        });
+    </script>
+
+</body>
+</html>

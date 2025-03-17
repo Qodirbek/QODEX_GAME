@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | QODEX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Admin Panel</h1>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Telegram ID</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Balance</th>
+                    <th>Wallet Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user[0] }}</td>  <!-- User ID (ID from database) -->
+                    <td>{{ user[1] }}</td>  <!-- Telegram ID -->
+                    <td>{{ user[2] if user[2] else "No username" }}</td>  <!-- Username -->
+                    <td>{{ user[3] if user[3] else "No first name" }}</td>  <!-- First Name -->
+                    <td>{{ user[4] if user[4] else "No last name" }}</td>  <!-- Last Name -->
+                    <td>{{ user[5] }}</td>  <!-- Balance -->
+                    <td>{{ user[6] if user[6] else "Not linked" }}</td>  <!-- Wallet Address -->
+                    <td>
+                        <button class="delete-btn" data-id="{{ user[1] }}">Delete</button>  <!-- Delete button -->
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="8">No users found</td>  <!-- No users message -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

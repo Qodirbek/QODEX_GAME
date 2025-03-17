@@ -1,0 +1,146 @@
+/* 🌌 Umumiy sahifa uslubi */
+body {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    color: white;
+    margin: 0;
+    padding-bottom: 80px; /* Pastki navbar uchun joy */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 📌 Wallet konteyneri */
+.wallet-container {
+    width: 90%;
+    max-width: 400px;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 🏆 Sarlavha */
+.wallet-title {
+    color: #FFD700;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* 🔑 Wallet ma'lumotlari */
+#wallet-info {
+    display: none;
+    margin-top: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+#wallet-address {
+    font-weight: bold;
+    color: #FFD700;
+    word-break: break-word;
+    font-size: 16px;
+}
+
+/* 🚀 Wallet tugmalari */
+.wallet-btn {
+    background: linear-gradient(90deg, #32a852, #0088cc);
+    color: white;
+    font-size: 18px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease, transform 0.2s;
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.15);
+    width: 85%;
+    max-width: 320px;
+    margin: 15px auto;
+    display: block;
+}
+
+.wallet-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+/* ❌ Disconnect tugmasi */
+#disconnect-wallet {
+    background: #cc0000;
+    display: none;
+}
+
+#disconnect-wallet:hover {
+    opacity: 0.9;
+}
+
+/* 💳 Transaction qutisi */
+.transaction-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+/* 🔽 Pastki navigatsiya */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 12px 0;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0 -2px 10px rgba(255, 255, 255, 0.1);
+}
+
+.nav-btn {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-btn.active {
+    background: #FFD700;
+    color: black;
+}
+
+/* 🎭 Animatsiyalar */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 📱 Mobil moslik */
+@media (max-width: 480px) {
+    .wallet-container {
+        width: 95%;
+        margin-top: 20px;
+    }
+
+    .nav-btn {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
