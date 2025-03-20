@@ -7,9 +7,28 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
-    <div class="admin-container">
-        <h1>Admin Panel</h1>
 
+    <!-- Sidebar menyu -->
+    <div class="sidebar">
+        <button class="close-btn">&times;</button>
+        <h2>Admin Panel</h2>
+        <ul>
+            <li><a href="#" id="users-tab">Users</a></li>
+            <li><a href="#" id="edit-users-tab">Edit Users</a></li>
+            <li><a href="#" id="edit-tasks-tab">Edit Tasks</a></li>
+        </ul>
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <button class="menu-btn">&#9776;</button>
+        <h1>Admin Panel</h1>
+    </div>
+
+    <!-- Users sahifasi -->
+    <div class="admin-container" id="users-section">
+        <h2>Users List</h2>
+        <button id="delete-no-id-users">Delete Users Without Telegram ID</button>
         <table class="admin-table">
             <thead>
                 <tr>
@@ -26,24 +45,65 @@
             <tbody>
                 {% for user in users %}
                 <tr>
-                    <td>{{ user[0] }}</td>  <!-- User ID (ID from database) -->
-                    <td>{{ user[1] }}</td>  <!-- Telegram ID -->
-                    <td>{{ user[2] if user[2] else "No username" }}</td>  <!-- Username -->
-                    <td>{{ user[3] if user[3] else "No first name" }}</td>  <!-- First Name -->
-                    <td>{{ user[4] if user[4] else "No last name" }}</td>  <!-- Last Name -->
-                    <td>{{ user[5] }}</td>  <!-- Balance -->
-                    <td>{{ user[6] if user[6] else "Not linked" }}</td>  <!-- Wallet Address -->
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.telegram_id or "No ID" }}</td>
+                    <td>{{ user.username or "No username" }}</td>
+                    <td>{{ user.first_name or "No first name" }}</td>
+                    <td>{{ user.last_name or "No last name" }}</td>
+                    <td>{{ user.balance }}</td>
+                    <td>{{ user.wallet_address or "Not linked" }}</td>
                     <td>
-                        <button class="delete-btn" data-id="{{ user[1] }}">Delete</button>  <!-- Delete button -->
+                        <button class="delete-btn" data-id="{{ user.id }}">Delete</button>
                     </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="8">No users found</td>  <!-- No users message -->
+                    <td colspan="8">No users found</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+    </div>
+
+    <!-- Edit Users sahifasi -->
+    <div class="admin-container" id="edit-users-section" style="display: none;">
+        <h2>Edit User Balance</h2>
+        <form id="edit-user-form">
+            <label for="user-id">Enter Telegram ID or User ID:</label>
+            <input type="text" id="user-id" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <div id="user-info" style="display: none;">
+            <h3>User Details</h3>
+            <p><strong>Username:</strong> <span id="user-username"></span></p>
+            <p><strong>First Name:</strong> <span id="user-firstname"></span></p>
+            <p><strong>Last Name:</strong> <span id="user-lastname"></span></p>
+            <p><strong>Current Balance:</strong> <span id="user-balance"></span></p>
+
+            <label for="new-balance">New Balance:</label>
+            <input type="number" id="new-balance" required>
+            <button id="save-balance">Save</button>
+        </div>
+    </div>
+
+    <!-- Edit Tasks sahifasi -->
+    <div class="admin-container" id="edit-tasks-section" style="display: none;">
+        <h2>Edit Tasks</h2>
+        <form id="edit-task-form">
+            <label for="task-id">Enter Task ID:</label>
+            <input type="text" id="task-id" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <div id="task-info" style="display: none;">
+            <h3>Task Details</h3>
+            <p><strong>Task Name:</strong> <span id="task-name"></span></p>
+            <p><strong>Description:</strong> <span id="task-desc"></span></p>
+            <label for="new-task-desc">New Description:</label>
+            <input type="text" id="new-task-desc">
+            <button id="save-task">Save</button>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
