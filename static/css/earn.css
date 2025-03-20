@@ -92,6 +92,25 @@ button:hover {
     background: linear-gradient(45deg, #0056b3, #003d80);
 }
 
+/* 💰 Foydalanuvchi balans va referallar bo‘limi */
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    margin: 20px auto;
+    border-radius: 10px;
+    max-width: 360px;
+    text-align: left;
+}
+
+.user-info span {
+    font-size: 18px;
+    font-weight: bold;
+    color: #FFD700;
+}
+
 /* Navbar (Tugmalar uchun) */
 .navbar {
     position: fixed;
@@ -120,7 +139,33 @@ button:hover {
     transform: scale(1.1);
 }
 
-/* Mobil versiya */
+/* 🔔 Bildirishnoma */
+.alert {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    z-index: 1000;
+    color: white;
+    animation: fadeInOut 3s ease-in-out;
+}
+
+.alert.success { background: #28a745; }
+.alert.error { background: #dc3545; }
+
+/* 🔄 Animatsiya */
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    80% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+}
+
+/* 📱 Mobil versiya */
 @media (max-width: 480px) {
     .container {
         width: 90%;
@@ -134,6 +179,11 @@ button:hover {
     button {
         font-size: 16px;
         padding: 10px 20px;
+    }
+
+    .user-info {
+        flex-direction: column;
+        text-align: center;
     }
 
     .navbar {
