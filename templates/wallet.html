@@ -16,10 +16,16 @@
     <div class="wallet-container">
         <h1 class="wallet-title">QODEX Wallet</h1>
 
+        <!-- User Info -->
+        <div class="user-info">
+            <p><strong>Username:</strong> {{ username }}</p>
+            <p><strong>Balance:</strong> {{ balance }} QODEX</p>
+        </div>
+
         <!-- Wallet Connection Section -->
         <div id="wallet-info" class="wallet-info" style="display: none;">
             <p><strong>Wallet Address:</strong></p>
-            <p id="wallet-address">---</p>
+            <p id="wallet-address">Not linked</p>
         </div>
 
         <!-- Wallet Action Buttons -->
