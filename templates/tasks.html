@@ -13,21 +13,26 @@
         <h1>Complete Tasks & Earn QODEX</h1>
 
         <div class="tasks-list">
+            <!-- Reklama ko‘rib tanga ishlash -->
             <div class="task">
                 <p>📺 <b>Watch Ad & Earn 1,000 QODEX</b></p>
-                <button class="task-btn" id="watch-ad-btn">Watch Now</button>
+                <button class="task-btn" id="watch-ad-btn" onclick="completeTask('watch-ad')">Watch Now</button>
+                <span id="watch-ad-status"></span>
             </div>
 
+            <!-- Telegram kanalga qo‘shilish -->
             <div class="task">
                 <p>📢 <b>Join QODEX Telegram</b></p>
-                <button class="task-btn" onclick="window.open('https://t.me/QODEX_COIN', '_blank')">Join Now</button>
+                <button class="task-btn" onclick="completeTask('join-telegram', 'https://t.me/QODEX_COIN')">Join Now</button>
+                <span id="join-telegram-status"></span>
             </div>
 
-            <!-- Yangi vazifalarni qo'shish uchun -->
+            <!-- Barcha vazifalar -->
             {% for task in tasks %}
             <div class="task">
                 <p>🔹 <b>{{ task.name }}</b></p>
-                <button class="task-btn" onclick="window.open('{{ task.link }}', '_blank')">Do Task</button>
+                <button class="task-btn" id="task-{{ task.id }}" onclick="completeTask('{{ task.id }}', '{{ task.link }}')">Do Task</button>
+                <span id="task-status-{{ task.id }}"></span>
             </div>
             {% endfor %}
         </div>
@@ -35,6 +40,29 @@
 
     {% include 'navbar.html' %}
 
-    <script src="{{ url_for('static', filename='js/tasks.js') }}"></script>
+    <script>
+        function completeTask(taskId, taskUrl = null) {
+            if (taskUrl) {
+                window.open(taskUrl, '_blank'); // URL'ni yangi oynada ochish
+            }
+
+            fetch('/complete-task', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ task_id: taskId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById(`task-${taskId}`).style.display = 'none';
+                    document.getElementById(`task-status-${taskId}`).innerHTML = '✅';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+
 </body>
 </html>
