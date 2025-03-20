@@ -89,6 +89,16 @@ body {
     transition: 0.3s;
 }
 
+/* 📦 Transaction tugmasi */
+#send-ton {
+    background: linear-gradient(90deg, #ff8c00, #ff4500);
+    font-weight: bold;
+}
+
+#send-ton:hover {
+    opacity: 0.9;
+}
+
 /* 🔽 Pastki navigatsiya */
 .bottom-nav {
     position: fixed;
