@@ -298,3 +298,10 @@ def watch_ad():
             conn.commit()
 
     return jsonify({"success": True, "message": "1000 QODEX qo'shildi!", "balance": new_balance})
+
+@routes.route('/favicon.ico')
+def favicon():
+    return send_from_directory('static/images', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+@routes.route("/static/path:filename")
+def static_files(filename): return send_from_directory("static", filename)
