@@ -244,6 +244,37 @@ def add_task():
         print("Database error:", e)
         return jsonify({"success": False, "message": "Failed to add task"}), 500
 
+@routes.route('/add-coins', methods=['POST'])
+def add_coins():
+    data = request.get_json()
+    coins = data.get('coins', 0)
+
+    if not isinstance(coins, int) or coins <= 0:
+        return jsonify({'success': False, 'message': 'Invalid coin amount!'}), 400
+
+    telegram_id, _, _ = get_telegram_data()
+
+    if not telegram_id:
+        return jsonify({'success': False, 'message': '❌ Faqat Telegram orqali kirish mumkin!'}), 403
+
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute("SELECT balance FROM users WHERE telegram_id = %s", (telegram_id,))
+                user = cur.fetchone()
+
+                if not user:
+                    return jsonify({'success': False, 'message': 'User not found!'}), 404
+
+                new_balance = user[0] + coins
+                cur.execute("UPDATE users SET balance = %s WHERE telegram_id = %s", (new_balance, telegram_id))
+                conn.commit()
+
+        return jsonify({'success': True, 'message': f'{coins} QODEX qo‘shildi!', 'balance': new_balance})
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error: {str(e)}'}), 500
+
 # **Taymerni olish**
 @routes.route("/get_timer", methods=["GET"])
 def get_timer():
