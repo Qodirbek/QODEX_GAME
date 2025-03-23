@@ -1,4 +1,3 @@
-<!-- templates/tasks.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,17 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasks | QODEX</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
+    <style>
+        /* Reklama oynasi */
+        #ad-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        #ad-content {
+            width: 90%;
+            height: 90%;
+            background: white;
+            position: relative;
+        }
+        #ad-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        #ad-timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-
     <div class="container">
         <h1>Complete Tasks & Earn QODEX</h1>
-
         <div class="tasks-list">
             <!-- Reklama ko‘rib tanga ishlash -->
             <div class="task">
                 <p>📺 <b>Watch Ad & Earn 1,000 QODEX</b></p>
-                <button class="task-btn" id="watch-ad-btn" onclick="completeTask('watch-ad')">Watch Now</button>
+                <button class="task-btn" id="watch-ad-btn" onclick="watchAd()">Watch Now</button>
                 <span id="watch-ad-status"></span>
             </div>
 
@@ -40,10 +74,55 @@
 
     {% include 'navbar.html' %}
 
+    <!-- Reklama modal oynasi -->
+    <div id="ad-modal">
+        <div id="ad-content">
+            <iframe id="ad-iframe" src="https://laytroops.com/jaf0rpe7?key=35afc006d57ec07e0f9a94ad4014d137"></iframe>
+            <div id="ad-timer">15</div>
+        </div>
+    </div>
+
     <script>
+        function watchAd() {
+            let adModal = document.getElementById("ad-modal");
+            let adTimer = document.getElementById("ad-timer");
+            let timeLeft = 15; // 15 yoki 30 soniya belgilash mumkin
+
+            adModal.style.display = "flex";
+            adTimer.innerText = timeLeft;
+
+            let countdown = setInterval(() => {
+                timeLeft--;
+                adTimer.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    adModal.style.display = "none";
+                    addCoins(); // Tanga qo‘shish
+                }
+            }, 1000);
+        }
+
+        function addCoins() {
+            fetch('/add-coins', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ coins: 100 }) // 100 QODEX qo‘shish
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("watch-ad-btn").style.display = "none";
+                    document.getElementById("watch-ad-status").innerHTML = "✅ 1,000 QODEX added!";
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
         function completeTask(taskId, taskUrl = null) {
             if (taskUrl) {
-                window.open(taskUrl, '_blank'); // URL'ni yangi oynada ochish
+                window.open(taskUrl, '_blank');
             }
 
             fetch('/complete-task', {
@@ -63,6 +142,5 @@
             .catch(error => console.error('Error:', error));
         }
     </script>
-
 </body>
 </html>
