@@ -15,16 +15,21 @@ document.addEventListener("DOMContentLoaded", async function () {
      */
     async function initTonConnect() {
         try {
+            if (typeof TonConnect === "undefined") {
+                console.error("TonConnect kutubxonasi yuklanmagan!");
+                return;
+            }
+
             tonConnectInstance = new TonConnect({
                 manifestUrl: "https://qodex-game.onrender.com/tonconnect-manifest.json"
             });
 
-            // Oldingi ulanishni tiklash
+            // Avtomatik wallet ulashni tekshirish
             const connectedWallet = await tonConnectInstance.restoreConnection();
-            if (connectedWallet?.account?.address) {
+            if (connectedWallet) {
                 walletAddress = connectedWallet.account.address;
                 updateUIAfterConnect(walletAddress);
-                console.log("Restored connection:", walletAddress);
+                console.log("Restored wallet connection:", walletAddress);
             }
         } catch (error) {
             console.error("Error initializing TonConnect:", error);
@@ -36,15 +41,25 @@ document.addEventListener("DOMContentLoaded", async function () {
      */
     async function connectWallet() {
         try {
-            const connectedWallet = await tonConnectInstance.connect();
-            if (connectedWallet?.account?.address) {
-                walletAddress = connectedWallet.account.address;
-                updateUIAfterConnect(walletAddress);
-                console.log("Wallet connected:", walletAddress);
-
-                // Wallet manzilini backend'ga saqlash
-                saveWalletAddress(walletAddress);
+            if (!tonConnectInstance) {
+                console.error("TonConnect instance not initialized.");
+                return;
             }
+
+            const wallets = await tonConnectInstance.getWallets();
+            if (wallets.length === 0) {
+                alert("No TON wallets found. Please install Tonkeeper or another compatible wallet.");
+                return;
+            }
+
+            // Wallet ulash
+            const { account } = await tonConnectInstance.connect({ modals: true });
+            walletAddress = account.address;
+            updateUIAfterConnect(walletAddress);
+            console.log("Wallet connected:", walletAddress);
+
+            // Wallet manzilini backend'ga saqlash
+            await saveWalletAddress(walletAddress);
         } catch (error) {
             console.error("Error connecting wallet:", error);
             alert("Failed to connect wallet. Please try again.");
@@ -54,19 +69,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     /**
      * Wallet uzish funksiyasi
      */
-    function disconnectWallet() {
-        if (tonConnectInstance) {
-            tonConnectInstance.disconnect();
+    async function disconnectWallet() {
+        try {
+            if (tonConnectInstance) {
+                await tonConnectInstance.disconnect();
+            }
+
+            walletAddress = null;
+            updateUIAfterDisconnect();
+            console.log("Wallet disconnected");
+        } catch (error) {
+            console.error("Error disconnecting wallet:", error);
         }
-
-        walletAddress = null;
-        walletAddressElement.textContent = "Not linked";
-        walletInfo.style.display = "none";
-        connectButton.style.display = "block";
-        disconnectButton.style.display = "none";
-        sendTonButton.disabled = true;
-
-        console.log("Wallet disconnected");
     }
 
     /**
@@ -80,10 +94,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         try {
             const transaction = {
-                validUntil: Math.floor(Date.now() / 1000) + 600, // 10 daqiqa amal qilish muddati
+                validUntil: Math.floor(Date.now() / 1000) + 600,
                 messages: [
                     {
-                        address: "YOUR_WALLET_ADDRESS_HERE", // O‘z TON hamyon manzilingizni yozing!
+                        address: "EQD6daHBPOTCfl92mM_UMVs6-M8BiMidrC8hXz-2X2veHPUi", // Qabul qiluvchi TON hamyon manzili
                         amount: "500000000", // 0.5 TON (nanoTON)
                         payload: ""
                     }
@@ -99,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     /**
-     * UI ni yangilash funksiyasi
+     * UI ni yangilash - Wallet ulanganidan keyin
      */
     function updateUIAfterConnect(walletAddress) {
         walletAddressElement.textContent = walletAddress;
@@ -110,19 +124,38 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     /**
+     * UI ni yangilash - Wallet uzilgandan keyin
+     */
+    function updateUIAfterDisconnect() {
+        walletAddressElement.textContent = "Not linked";
+        walletInfo.style.display = "none";
+        connectButton.style.display = "block";
+        disconnectButton.style.display = "none";
+        sendTonButton.disabled = true;
+    }
+
+    /**
      * Wallet manzilini backend'ga saqlash
      */
-    function saveWalletAddress(walletAddress) {
-        fetch("/save-wallet", {  // URL-ni to‘g‘ri yozish kerak
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ wallet_address: walletAddress })
-        })
-        .then(response => response.json())
-        .then(data => console.log("Wallet address saved:", data))
-        .catch(error => console.error("Error saving wallet address:", error));
+    async function saveWalletAddress(walletAddress) {
+        try {
+            const response = await fetch("/save-wallet", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ wallet_address: walletAddress })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("Wallet address saved:", data);
+        } catch (error) {
+            console.error("Error saving wallet address:", error);
+        }
     }
 
     // Tugmalarga event qo‘shish
