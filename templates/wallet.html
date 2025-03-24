@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wallet | QODEX</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/wallet.css') }}">
-    
-    <!-- TonConnect SDK -->
-    <script src="https://unpkg.com/@tonconnect/sdk@latest"></script>
 </head>
-
 <body>
 
     <!-- Wallet Container -->
@@ -18,8 +14,8 @@
 
         <!-- User Info -->
         <div class="user-info">
-            <p><strong>Username:</strong> {{ username }}</p>
-            <p><strong>Balance:</strong> {{ balance }} QODEX</p>
+            <p><strong>Username:</strong> <span id="username">{{ username }}</span></p>
+            <p><strong>Balance:</strong> <span id="balance">{{ balance }}</span> QODEX</p>
         </div>
 
         <!-- Wallet Connection Section -->
@@ -48,6 +44,9 @@
         <a href="/earn" class="nav-btn">Earn</a>
         <a href="/wallet" class="nav-btn active">Wallet</a>
     </div>
+
+    <!-- TonConnect SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
 
     <!-- JavaScript -->
     <script src="{{ url_for('static', filename='js/wallet.js') }}"></script>
