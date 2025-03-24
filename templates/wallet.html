@@ -8,60 +8,51 @@
 </head>
 <body>
 
-    <!-- Wallet Container -->
-    <div class="wallet-container">
-        <h1 class="wallet-title">QODEX Wallet</h1>
+<!-- Wallet Container -->
+<div class="wallet-container">
+    <h1 class="wallet-title">QODEX Wallet</h1>
 
-        <!-- User Info -->
-        <div class="user-info">
-            <p><strong>Username:</strong> <span id="username">{{ username }}</span></p>
-            <p><strong>Balance:</strong> <span id="balance">{{ balance }}</span> QODEX</p>
-        </div>
-
-        <!-- Wallet Connection Section -->
-        <div id="wallet-info" class="wallet-info" style="display: none;">
-            <p><strong>Wallet Address:</strong></p>
-            <p id="wallet-address">Not linked</p>
-        </div>
-
-        <!-- Wallet Action Buttons -->
-        <div class="wallet-buttons">
-            <button id="connect-wallet" class="wallet-btn">Connect Wallet</button>
-            <button id="disconnect-wallet" class="wallet-btn" style="display: none;">Disconnect Wallet</button>
-        </div>
-
-        <!-- Transaction Section -->
-        <div class="transaction-box">
-            <button id="send-ton" class="wallet-btn" disabled>
-                Send 0.5 TON
-            </button>
-        </div>
+    <!-- User Info -->
+    <div class="user-info">
+        <p><strong>Username:</strong> <span id="username">{{ username }}</span></p>
+        <p><strong>Balance:</strong> <span id="balance">{{ balance }}</span> QODEX</p>
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <a href="/" class="nav-btn">Home</a>
-        <a href="/earn" class="nav-btn">Earn</a>
-        <a href="/wallet" class="nav-btn active">Wallet</a>
+    <!-- Wallet Connection Section -->
+    <div id="wallet-info" class="wallet-info" style="display: none;">
+        <p><strong>Wallet Address:</strong></p>
+        <p id="wallet-address" class="wallet-address">Not linked</p>
     </div>
 
-    <!-- TonConnect SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js" defer></script>
+    <!-- Wallet Action Buttons -->
+    <div class="wallet-buttons">
+        <button id="connect-wallet" class="wallet-btn">Connect Wallet</button>
+        <button id="disconnect-wallet" class="wallet-btn" style="display: none;">Disconnect Wallet</button>
+    </div>
 
-    <!-- JavaScript -->
-    <script>
-        // Kutubxona yuklanganligini tekshiramiz
-        window.addEventListener("load", function () {
-            if (!window.TonConnect) {
-                console.error("TonConnect kutubxonasi yuklanmagan yoki noto‘g‘ri yuklandi!");
-                alert("TonConnect yuklanmadi. Saytni qayta yuklang.");
-                return;
-            }
-        });
-    </script>
+    <!-- Transaction Section -->
+    <div class="transaction-box">
+        <button id="send-ton" class="wallet-btn" disabled>
+            Send 0.5 TON
+        </button>
+    </div>
+</div>
 
-    <!-- Wallet JavaScript -->
-    <script src="{{ url_for('static', filename='js/wallet.js') }}" defer></script>
+<!-- Loading Indicator -->
+<div id="loading-overlay" class="loading-overlay" style="display: none;">
+    <div class="loading-spinner"></div>
+    <p>Processing...</p>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+    <a href="/" class="nav-btn">Home</a>
+    <a href="/earn" class="nav-btn">Earn</a>
+    <a href="/wallet" class="nav-btn active">Wallet</a>
+</div>
+
+<!-- Wallet JavaScript -->
+<script src="{{ url_for('static', filename='js/wallet.js') }}" defer></script>
 
 </body>
 </html>
