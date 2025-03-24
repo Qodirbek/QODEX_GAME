@@ -130,6 +130,38 @@ def wallet():
 
     return render_template("wallet.html", username=telegram_id, balance=balance, wallet_address=wallet_address)
 
+@routes.route("/save-wallet", methods=["POST"])
+def save_wallet():
+    try:
+        telegram_id, _, _ = get_telegram_data()
+
+        if not telegram_id:
+            return jsonify({"success": False, "message": "❌ Faqat Telegram orqali kirish mumkin!"}), 403
+
+        data = request.get_json()
+        wallet_address = data.get("wallet_address")
+
+        if not wallet_address:
+            return jsonify({"success": False, "message": "Hamyon manzili kiritilmagan!"}), 400
+
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                # Foydalanuvchini tekshirish
+                cur.execute("SELECT 1 FROM users WHERE telegram_id = %s", (telegram_id,))
+                if not cur.fetchone():
+                    return jsonify({"success": False, "message": "Foydalanuvchi topilmadi!"}), 404
+
+                # Hamyon manzilini yangilash
+                cur.execute("UPDATE users SET wallet_address = %s WHERE telegram_id = %s", 
+                            (wallet_address, telegram_id))
+                conn.commit()
+
+        return jsonify({"success": True, "message": "✅ Hamyon manzili saqlandi!"})
+
+    except Exception as e:
+        print(f"[Xatolik] Database error: {e}")  # Log uchun
+        return jsonify({"success": False, "message": "❌ Serverda xatolik yuz berdi!"}), 500
+
 @routes.route("/claim", methods=["POST"])
 def claim():
     telegram_id, _, _ = get_telegram_data()
