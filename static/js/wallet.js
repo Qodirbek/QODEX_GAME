@@ -14,19 +14,20 @@ document.addEventListener("DOMContentLoaded", async function () {
      * TON Connect-ni boshlash
      */
     async function initTonConnect() {
-        try {
-            if (typeof TonConnect === "undefined") {
-                console.error("TonConnect kutubxonasi yuklanmagan!");
-                return;
-            }
+        if (typeof TonConnect === "undefined") {
+            console.error("TonConnect kutubxonasi yuklanmagan!");
+            alert("TonConnect SDK yuklanmagan! Iltimos, sahifani qayta yuklang.");
+            return;
+        }
 
+        try {
             tonConnectInstance = new TonConnect({
                 manifestUrl: "https://qodex-game.onrender.com/tonconnect-manifest.json"
             });
 
             // Avtomatik wallet ulashni tekshirish
             const connectedWallet = await tonConnectInstance.restoreConnection();
-            if (connectedWallet) {
+            if (connectedWallet && connectedWallet.account) {
                 walletAddress = connectedWallet.account.address;
                 updateUIAfterConnect(walletAddress);
                 console.log("Restored wallet connection:", walletAddress);
@@ -40,29 +41,31 @@ document.addEventListener("DOMContentLoaded", async function () {
      * Wallet ulash funksiyasi
      */
     async function connectWallet() {
-        try {
-            if (!tonConnectInstance) {
-                console.error("TonConnect instance not initialized.");
-                return;
-            }
+        if (!tonConnectInstance) {
+            console.error("TonConnect instance not initialized.");
+            return;
+        }
 
+        try {
             const wallets = await tonConnectInstance.getWallets();
             if (wallets.length === 0) {
-                alert("No TON wallets found. Please install Tonkeeper or another compatible wallet.");
+                alert("Hech qanday TON hamyon topilmadi. Iltimos, Tonkeeper yoki boshqa mos hamyonni o‘rnatib qo‘ying.");
                 return;
             }
 
             // Wallet ulash
             const { account } = await tonConnectInstance.connect({ modals: true });
-            walletAddress = account.address;
-            updateUIAfterConnect(walletAddress);
-            console.log("Wallet connected:", walletAddress);
+            if (account && account.address) {
+                walletAddress = account.address;
+                updateUIAfterConnect(walletAddress);
+                console.log("Wallet connected:", walletAddress);
 
-            // Wallet manzilini backend'ga saqlash
-            await saveWalletAddress(walletAddress);
+                // Wallet manzilini backend'ga saqlash
+                await saveWalletAddress(walletAddress);
+            }
         } catch (error) {
             console.error("Error connecting wallet:", error);
-            alert("Failed to connect wallet. Please try again.");
+            alert("Hamyon ulab bo‘lmadi. Iltimos, qayta urinib ko‘ring.");
         }
     }
 
@@ -70,11 +73,13 @@ document.addEventListener("DOMContentLoaded", async function () {
      * Wallet uzish funksiyasi
      */
     async function disconnectWallet() {
-        try {
-            if (tonConnectInstance) {
-                await tonConnectInstance.disconnect();
-            }
+        if (!tonConnectInstance) {
+            console.error("TonConnect instance not initialized.");
+            return;
+        }
 
+        try {
+            await tonConnectInstance.disconnect();
             walletAddress = null;
             updateUIAfterDisconnect();
             console.log("Wallet disconnected");
@@ -88,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async function () {
      */
     async function sendTransaction() {
         if (!walletAddress) {
-            alert("Please connect your wallet first!");
+            alert("Iltimos, avval hamyoningizni ulang!");
             return;
         }
 
@@ -105,10 +110,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             };
 
             await tonConnectInstance.sendTransaction(transaction);
-            alert("Transaction successful!");
+            alert("Tranzaktsiya muvaffaqiyatli amalga oshirildi!");
         } catch (error) {
             console.error("Transaction error:", error);
-            alert("Transaction failed. Please try again.");
+            alert("Tranzaktsiya amalga oshmadi. Iltimos, qayta urinib ko‘ring.");
         }
     }
 
