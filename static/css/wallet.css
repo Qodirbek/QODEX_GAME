@@ -31,6 +31,18 @@ body {
     margin-bottom: 15px;
 }
 
+/* 👤 User ma'lumotlari */
+.user-info {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.user-info p {
+    font-size: 16px;
+}
+
 /* 🔑 Wallet ma'lumotlari */
 #wallet-info {
     display: none;
@@ -49,6 +61,12 @@ body {
 }
 
 /* 🚀 Wallet tugmalari */
+.wallet-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .wallet-btn {
     background: linear-gradient(90deg, #32a852, #0088cc);
     color: white;
@@ -61,7 +79,7 @@ body {
     box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.15);
     width: 85%;
     max-width: 320px;
-    margin: 15px auto;
+    margin: 10px auto;
     display: block;
 }
 
@@ -97,6 +115,33 @@ body {
 
 #send-ton:hover {
     opacity: 0.9;
+}
+
+/* 🔄 Loading effekti */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 18px;
+    display: none;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top: 5px solid #FFD700;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
 }
 
 /* 🔽 Pastki navigatsiya */
@@ -139,6 +184,15 @@ body {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }
 
