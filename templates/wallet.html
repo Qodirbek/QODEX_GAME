@@ -46,10 +46,22 @@
     </div>
 
     <!-- TonConnect SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js" defer></script>
 
     <!-- JavaScript -->
-    <script src="{{ url_for('static', filename='js/wallet.js') }}"></script>
+    <script>
+        // Kutubxona yuklanganligini tekshiramiz
+        window.addEventListener("load", function () {
+            if (!window.TonConnect) {
+                console.error("TonConnect kutubxonasi yuklanmagan yoki noto‘g‘ri yuklandi!");
+                alert("TonConnect yuklanmadi. Saytni qayta yuklang.");
+                return;
+            }
+        });
+    </script>
+
+    <!-- Wallet JavaScript -->
+    <script src="{{ url_for('static', filename='js/wallet.js') }}" defer></script>
 
 </body>
 </html>
