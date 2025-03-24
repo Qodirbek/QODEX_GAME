@@ -11,6 +11,14 @@
     "name": "Qodirbek",
     "url": "https://qodex-game.onrender.com"
   },
+  "wallets": [
+    {
+      "name": "Tonkeeper",
+      "url": "https://tonkeeper.com",
+      "universalLink": "https://app.tonkeeper.com/ton-connect",
+      "iconUrl": "https://tonkeeper.com/assets/favicon/android-icon-192x192.png"
+    }
+  ],
   "permissions": [
     "ton_sendTransaction",
     "ton_signData",
