@@ -3,5 +3,17 @@
   "name": "QODEX COIN",
   "iconUrl": "https://qodex-game.onrender.com/static/images/coin_site.png",
   "dappUrl": "https://qodex-game.onrender.com",
-  "network": "mainnet"
+  "manifestVersion": "1",
+  "appVersion": "1.0.0",
+  "network": "mainnet",
+  "description": "QODEX COIN - Click & Earn Game powered by TON Blockchain.",
+  "developer": {
+    "name": "Qodirbek",
+    "url": "https://qodex-game.onrender.com"
+  },
+  "permissions": [
+    "ton_sendTransaction",
+    "ton_signData",
+    "ton_getAddress"
+  ]
 }
