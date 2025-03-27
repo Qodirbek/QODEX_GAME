@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", async function () {
-    console.log("Wallet page loaded.");
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("✅ Wallet page loaded.");
 
     const connectButton = document.getElementById("connect-wallet");
     const disconnectButton = document.getElementById("disconnect-wallet");
@@ -7,82 +7,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     const walletAddressElement = document.getElementById("wallet-address");
     const sendTonButton = document.getElementById("send-ton");
 
-    let walletAddress = null;
+    let walletAddress = localStorage.getItem("walletAddress") || null;
 
-    // TON Connect instance
-    const tonConnect = new TonConnect({
-        manifestUrl: "https://qodex-game.onrender.com/static/tonconnect-manifest.json"
-    });
+    // 🔵 SIZNING TON HAMYONINGIZ (BU YERGA O'Z HAMYON MANZILINGIZNI QO'SHING)
+    const yourWalletAddress = "UQB6daHBPOTCfl92mM_UMVs6-M8BiMidrC8hXz-2X2veHPUi"; // Masalan: EQC123...xyz
 
-    /**
-     * Tonkeeper orqali ulanish
-     */
-    async function connectViaTonkeeper() {
-        try {
-            console.log("Ulanish uchun so'rov yuborilmoqda...");
-
-            const walletsList = await tonConnect.getWallets();
-            console.log("Mavjud hamyonlar:", walletsList);
-
-            const tonkeeperWallet = walletsList.find(wallet => wallet.name.toLowerCase().includes("tonkeeper"));
-
-            if (!tonkeeperWallet) {
-                alert("❌ Tonkeeper topilmadi. Iltimos, uni o‘rnatganingizni tekshiring.");
-                return;
-            }
-
-            const deepLink = `${tonkeeperWallet.universalLink}?connect=${encodeURIComponent(tonConnect.connectUrl)}`;
-            console.log("Tonkeeper deeplink:", deepLink);
-
-            window.open(deepLink, "_blank");
-
-            tonConnect.onStatusChange((wallet) => {
-                if (wallet && wallet.account) {
-                    walletAddress = wallet.account.address;
-                    updateUI(walletAddress, true);
-                    console.log("✅ Wallet ulandi:", walletAddress);
-                }
-            });
-
-        } catch (error) {
-            console.error("❌ Tonkeeper orqali ulanishda xatolik:", error);
-            alert("Tonkeeper orqali ulanishda xatolik yuz berdi. Iltimos, qayta urinib ko‘ring.");
-        }
-    }
-
-    /**
-     * Walletni uzish funksiyasi
-     */
-    function disconnectWallet() {
-        tonConnect.disconnect();
-        walletAddress = null;
-        updateUI(null, false);
-        console.log("❌ Wallet uzildi.");
-    }
-
-    /**
-     * 0.5 TON yuborish
-     */
-    async function sendTransaction() {
-        if (!walletAddress) {
-            return alert("❌ Iltimos, avval hamyoningizni ulang!");
-        }
-
-        try {
-            const transactionUrl = `https://app.tonkeeper.com/transfer/${walletAddress}?amount=500000000`;
-            console.log("Tranzaktsiya havolasi:", transactionUrl);
-            window.open(transactionUrl, "_blank");
-        } catch (error) {
-            console.error("❌ Tranzaktsiya amalga oshmadi:", error);
-            alert("Tranzaktsiya amalga oshmadi. Iltimos, qayta urinib ko‘ring.");
-        }
-    }
-
-    /**
-     * UI yangilash
-     */
-    function updateUI(walletAddress, isConnected) {
-        if (isConnected) {
+    // UI ni yangilash
+    function updateUI(walletAddress) {
+        if (walletAddress) {
             walletAddressElement.textContent = walletAddress;
             walletInfo.style.display = "block";
             connectButton.style.display = "none";
@@ -97,8 +29,56 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
+    /**
+     * 📌 Tonkeeper orqali hamyonni ulash
+     */
+    function connectViaTonkeeper() {
+        const tonkeeperUrl = "https://app.tonkeeper.com/ton-connect";
+        window.open(tonkeeperUrl, "_blank");
+
+        // ❗ Foydalanuvchi qo'lda hamyon manzilini kiritadi
+        setTimeout(() => {
+            const userWallet = prompt("✅ Hamyon manzilingizni kiriting:");
+            if (userWallet) {
+                walletAddress = userWallet;
+                localStorage.setItem("walletAddress", walletAddress);
+                updateUI(walletAddress);
+                console.log("✅ Wallet ulandi:", walletAddress);
+            }
+        }, 2000);
+    }
+
+    /**
+     * 🔌 Hamyonni uzish funksiyasi
+     */
+    function disconnectWallet() {
+        walletAddress = null;
+        localStorage.removeItem("walletAddress");
+        updateUI(null);
+        console.log("❌ Wallet uzildi.");
+    }
+
+    /**
+     * 💰 0.5 TON SIZNING hamyoningizga yuborish
+     */
+    function sendTransaction() {
+        if (!walletAddress) {
+            return alert("❌ Iltimos, avval hamyoningizni ulang!");
+        }
+
+        const amount = 500000000; // 0.5 TON = 500 million nanotons
+
+        // ✅ Tranzaksiya linki (SIZNING HAMYONINGIZGA tushadi)
+        const transactionUrl = `https://app.tonkeeper.com/transfer/${yourWalletAddress}?amount=${amount}`;
+        console.log("📌 Tranzaksiya linki:", transactionUrl);
+        window.open(transactionUrl, "_blank");
+    }
+
     // Tugmalarga event qo‘shish
     connectButton.addEventListener("click", connectViaTonkeeper);
     disconnectButton.addEventListener("click", disconnectWallet);
     sendTonButton.addEventListener("click", sendTransaction);
+
+    // Sahifa yuklanganda UI yangilash
+    updateUI(walletAddress);
 });
