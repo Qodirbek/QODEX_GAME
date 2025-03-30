@@ -2,27 +2,39 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background: linear-gradient(to bottom, #121212, #1a1a1a);
+    background-image: url('/static/images/background.jpg'); /* Tasvir yo‘li */
+    background-size: cover; /* Tasvirni to‘liq ekran qilish */
+    background-position: center; /* Markazga joylashtirish */
+    background-repeat: no-repeat; /* Takrorlanmasligi uchun */
+    background-attachment: fixed; /* Scroll paytida fon o‘zgarmasligi */
     color: white;
     margin: 0;
     padding: 0;
+    min-height: 100vh; /* To‘liq ekran balandligi */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Sahifa konteyneri */
 .container {
     margin-top: 50px;
     padding: 20px;
+    background: rgba(0, 0, 0, 0.5); /* Tasvir ustida yarim shaffof fon */
+    border-radius: 10px; /* Yumshoq burchaklar */
 }
 
 /* Sarlavha */
 h1 {
     color: #f2a900;
     font-size: 28px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Matnni ko‘zga ko‘rinarli qilish */
 }
 
 h2 {
     color: #ddd;
     font-size: 24px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 /* Tanga animatsiyasi */
@@ -73,6 +85,7 @@ h2 {
     margin-top: 15px;
     font-size: 18px;
     color: #bbb;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); /* Ko‘zga ko‘rinarli qilish */
 }
 
 /* Navigatsiya tugmalari */
@@ -90,9 +103,11 @@ h2 {
     padding: 10px 20px;
     border-radius: 20px;
     margin: 5px;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .navbar a:hover {
     background: #0056b3;
+    transform: scale(1.05);
 }
