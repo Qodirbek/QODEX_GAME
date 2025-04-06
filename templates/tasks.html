@@ -1,80 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tasks | QODEX</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
-    <style>
-        /* Reklama oynasi */
-        #ad-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        #ad-content {
-            width: 90%;
-            height: 90%;
-            background: white;
-            position: relative;
-        }
-        #ad-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        #ad-timer {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: red;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}" />
 </head>
 <body>
     <div class="container">
-        <h1>Complete Tasks & Earn QODEX</h1>
+        <!-- Daily Bonus Section -->
+        <div class="bonus-section">
+            <button class="bonus-btn" onclick="showBonusModal()">
+                <svg class="bonus-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="#FFD700" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm1-13h-2v6l5.2 3.2 1-1.7-4.2-2.5z"/>
+                </svg>
+                Claim Daily Bonus
+            </button>
+            <p id="bonus-status"></p>
+        </div>
+
+        <!-- Tasks Header -->
+        <h2 class="task-header">
+            <svg class="task-header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="#00ffc3" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm-1 15l-5-5 1.4-1.4L11 14.2l6.6-6.6L19 9l-8 8z"/>
+            </svg>
+            Tasks
+        </h2>
+
+        <!-- Tasks List -->
         <div class="tasks-list">
-            <!-- Reklama ko‘rib tanga ishlash -->
-            <div class="task">
-                <p>📺 <b>Watch Ad & Earn 100 QODEX</b></p>
-                <button class="task-btn" id="watch-ad-btn" onclick="watchAd()">Watch Now</button>
-                <span id="watch-ad-status"></span>
+            <!-- Watch Ad Task -->
+            <div class="task" id="task-watch-ad">
+                <div class="task-content">
+                    <svg class="task-icon" xmlns="http://www.w3.org/2000/svg" fill="#FFD700" viewBox="0 0 24 24" width="40" height="40">
+                        <path d="M12 2L15 8l6 .5-4.5 4.5 1 6-5.5-3-5.5 3 1-6L3 8.5 9 8z"/>
+                    </svg>
+                    <div class="task-text">
+                        <b>Watch Ad</b>
+                        <span class="task-progress" id="ad-progress">0/10</span>
+                    </div>
+                </div>
+                <div class="task-action">
+                    <button id="watch-ad-btn" class="task-btn" onclick="watchAd()">Watch</button>
+                    <svg class="check-icon" style="display: none;" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#00FF00" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                    </svg>
+                </div>
             </div>
 
-            <!-- Telegram kanalga qo‘shilish -->
-            <div class="task">
-                <p>📢 <b>Join QODEX Telegram</b></p>
-                <button class="task-btn" onclick="completeTask('join-telegram', 'https://t.me/QODEX_COIN')">Join Now</button>
-                <span id="join-telegram-status"></span>
+            <!-- Telegram Task -->
+            <div class="task" id="task-join-telegram">
+                <div class="task-content">
+                    <svg class="task-icon" xmlns="http://www.w3.org/2000/svg" fill="#00BFFF" viewBox="0 0 24 24" width="40" height="40">
+                        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c5.4 0 10-4.5 10-10S17.4 2 12 2zm4.6 7.3l-1.6 7.5c-.1.4-.3.5-.7.3l-2-1.5-1 .9c-.1.1-.2.2-.4.2l.1-1.4 3.7-3.3c.2-.2-.1-.3-.3-.2l-4.6 2.9-1.3-.4c-.3-.1-.3-.3.1-.5l8.9-3.9c.3-.1.5.1.4.4z"/>
+                    </svg>
+                    <div class="task-text">
+                        <b>Join Telegram Channel</b>
+                    </div>
+                </div>
+                <div class="task-action">
+                    <button class="task-btn" onclick="completeTask('join-telegram', 'https://t.me/QODEX_COIN')">Join</button>
+                    <svg class="check-icon" style="display: none;" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#00FF00" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                    </svg>
+                </div>
             </div>
 
-            <!-- Barcha vazifalar -->
+            <!-- Dynamic Tasks -->
             {% for task in tasks %}
-            <div class="task">
-                <p>🔹 <b>{{ task.name }}</b></p>
-                <button class="task-btn" id="task-{{ task.id }}" onclick="completeTask('{{ task.id }}', '{{ task.link }}')">Do Task</button>
-                <span id="task-status-{{ task.id }}"></span>
+            <div class="task" id="task-{{ task.id }}">
+                <div class="task-content">
+                    <svg class="task-icon" xmlns="http://www.w3.org/2000/svg" fill="#32CD32" viewBox="0 0 24 24" width="40" height="40">
+                        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm-1 15l-5-5 1.4-1.4L11 14.2l6.6-6.6L19 9l-8 8z"/>
+                    </svg>
+                    <div class="task-text">
+                        <b>{{ task.name }}</b>
+                        <span class="task-reward">+{{ task.reward }} QODEX</span>
+                    </div>
+                </div>
+                <div class="task-action">
+                    <button class="task-btn" onclick="completeTask('{{ task.id }}', '{{ task.link }}')">Complete</button>
+                    <svg class="check-icon" style="display: none;" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="#00FF00" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                    </svg>
+                </div>
             </div>
             {% endfor %}
         </div>
     </div>
 
+    <!-- Navbar Include -->
     {% include 'navbar.html' %}
 
-    <!-- Reklama modal oynasi -->
+    <!-- Ad Modal -->
     <div id="ad-modal">
         <div id="ad-content">
             <iframe id="ad-iframe" src="https://laytroops.com/jaf0rpe7?key=35afc006d57ec07e0f9a94ad4014d137"></iframe>
@@ -82,65 +101,59 @@
         </div>
     </div>
 
+    <!-- Bonus Modal -->
+    <div id="bonus-modal" class="modal">
+        <div class="bonus-modal-content">
+            <h2>
+                <svg class="bonus-modal-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="#FFD700" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm1-13h-2v6l5.2 3.2 1-1.7-4.2-2.5z"/>
+                </svg>
+                Daily Bonus
+            </h2>
+            <div class="bonus-days">
+                <div class="bonus-day-header">
+                    <span>Day</span>
+                    <span>Reward</span>
+                </div>
+                <div id="bonus-days-list" class="bonus-days-list">
+                    <!-- JS orqali to‘ldiriladi -->
+                </div>
+            </div>
+            <button id="close-bonus-modal" class="close-btn">
+                <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
+                    <path fill="#FFFFFF" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm4 14l-1.4 1.4L12 14.8l-2.6 2.6L8 16l2.6-2.6L8 10.8l1.4-1.4L12 12l2.6-2.6L16 10.8l-2.6 2.6L16 16z"/>
+                </svg>
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script>
+        let watchedAds = parseInt(localStorage.getItem('watchedAds')) || 0;
+        document.getElementById('ad-progress').textContent = `${watchedAds}/10`;
+
         function watchAd() {
-            let adModal = document.getElementById("ad-modal");
-            let adTimer = document.getElementById("ad-timer");
-            let timeLeft = 15; // 15 yoki 30 soniya belgilash mumkin
-
-            adModal.style.display = "flex";
-            adTimer.innerText = timeLeft;
-
-            let countdown = setInterval(() => {
-                timeLeft--;
-                adTimer.innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(countdown);
-                    adModal.style.display = "none";
-                    addCoins(); // Tanga qo‘shish
-                }
-            }, 1000);
-        }
-
-        function addCoins() {
-            fetch('/add-coins', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ coins: 100 }) // 100 QODEX qo‘shish
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById("watch-ad-btn").style.display = "none";
-                    document.getElementById("watch-ad-status").innerHTML = "✅ 100 QODEX added!";
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-
-        function completeTask(taskId, taskUrl = null) {
-            if (taskUrl) {
-                window.open(taskUrl, '_blank');
+            if (watchedAds < 10) {
+                document.getElementById('ad-modal').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('ad-modal').style.display = 'none';
+                    watchedAds++;
+                    localStorage.setItem('watchedAds', watchedAds);
+                    document.getElementById('ad-progress').textContent = `${watchedAds}/10`;
+                    if (watchedAds >= 10) {
+                        document.getElementById('watch-ad-btn').disabled = true;
+                        document.getElementById('watch-ad-btn').textContent = 'Limit Reached';
+                        const checkIcon = document.querySelector('#task-watch-ad .check-icon');
+                        if (checkIcon) {
+                            checkIcon.style.display = 'block';
+                        }
+                    }
+                }, 16000);
             }
-
-            fetch('/complete-task', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ task_id: taskId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById(`task-${taskId}`).style.display = 'none';
-                    document.getElementById(`task-status-${taskId}`).innerHTML = '✅';
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => console.error('Error:', error));
         }
     </script>
+
+    <script src="{{ url_for('static', filename='js/tasks.js') }}"></script>
 </body>
 </html>
