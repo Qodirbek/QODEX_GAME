@@ -11,32 +11,75 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
 </head>
 <body>
+    <!-- Loading bo‘limi -->
+    <div class="loading-screen" id="loading-screen">
+        <img src="{{ url_for('static', filename='images/loading.png') }}" alt="Loading..." class="loading-img">
+    </div>
 
     <!-- Navbar -->
     {% include 'navbar.html' %}
 
     <div class="container">
-        <h1>Welcome, {{ username }}!</h1>
-        <h2>Balance: <span id="balance">{{ balance }}</span> QODEX</h2>
+        <!-- Profil va Username -->
+        <div class="profile-section">
+            <svg class="profile-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40">
+                <path fill="#00ffc3" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm0 4c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3zm0 14c-2.8 0-5.3-1.4-6.8-3.6.9-1.4 2.5-2.4 4.8-2.4 2.2 0 3.9 1 4.8 2.4-1.5 2.2-4 3.6-6.8 3.6z"/>
+            </svg>
+            <span class="username">{{ username }}</span>
+        </div>
+
+        <!-- Balans -->
+        <div class="balance-section">
+            <svg class="balance-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
+                <path fill="#FFD700" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm0-14c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6zm0 10c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"/>
+            </svg>
+            <h2>Balance: <span id="balance">{{ balance }}</span> QODEX</h2>
+        </div>
 
         <!-- Tanga bosish maydoni -->
         <div class="circle">
-            <img src="{{ url_for('static', filename='images/coin.png') }}" class="rotating-coin" id="coin">
+            <img src="{{ url_for('static', filename='images/coin.png') }}" class="coin-img rotating-coin" id="coin">
         </div>
 
         <!-- Claim tugmasi -->
         <button id="claim-btn" {% if farming %}disabled{% endif %}>
-            {% if farming %} ⏳ Farming in Progress... {% else %} Claim 1000 QODEX {% endif %}
+            {% if farming %}
+                <svg class="timer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="#FFD700" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm1-13h-2v6l5.2 3.2 1-1.7-4.2-2.5z"/>
+                </svg>
+                Farming in Progress...
+            {% else %}
+                <svg class="claim-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="#00ffc3" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm-1 15l-5-5 1.4-1.4L11 14.2l6.6-6.6L19 9l-8 8z"/>
+                </svg>
+                Claim 1000 QODEX
+            {% endif %}
         </button>
 
         <!-- Taymer -->
         <p id="timer" {% if not farming %}style="display: none;"{% endif %}>
+            <svg class="timer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                <path fill="#FFD700" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm1-13h-2v6l5.2 3.2 1-1.7-4.2-2.5z"/>
+            </svg>
             Next claim in <span id="countdown">{{ remaining_time }}</span>
         </p>
     </div>
 
     <!-- JavaScript -->
     <script>
+        // Sahifa yuklanganda loading ekranini yashirish
+        window.addEventListener("load", function () {
+            const loadingScreen = document.getElementById("loading-screen");
+            const container = document.querySelector(".container");
+
+            // Loading ekranini yashirish va asosiy kontentni ko‘rsatish
+            loadingScreen.style.opacity = "0";
+            setTimeout(() => {
+                loadingScreen.style.display = "none";
+                container.style.opacity = "1";
+            }, 500); // 500ms kechikish (opacity animatsiyasi uchun)
+        });
+
         document.addEventListener("DOMContentLoaded", function () {
             let claimBtn = document.getElementById("claim-btn");
             let countdown = document.getElementById("countdown");
@@ -53,7 +96,12 @@
 
             async function claimTokens() {
                 // ✅ Tugma bosilganda **darhol** "Farming in Progress..." ko‘rinadi
-                claimBtn.innerText = "⏳ Farming in Progress...";
+                claimBtn.innerHTML = `
+                    <svg class="timer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="#FFD700" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm1-13h-2v6l5.2 3.2 1-1.7-4.2-2.5z"/>
+                    </svg>
+                    Farming in Progress...
+                `;
                 claimBtn.disabled = true;
 
                 try {
@@ -80,7 +128,7 @@
                     return;
                 }
 
-                timerText.style.display = "block";
+                timerText.style.display = "flex";
 
                 function updateTimer() {
                     if (totalSeconds <= 0) {
@@ -102,7 +150,12 @@
             }
 
             function enableClaimButton() {
-                claimBtn.innerText = "Claim 1000 QODEX";
+                claimBtn.innerHTML = `
+                    <svg class="claim-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="#00ffc3" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.4 2 12 2zm-1 15l-5-5 1.4-1.4L11 14.2l6.6-6.6L19 9l-8 8z"/>
+                    </svg>
+                    Claim 1000 QODEX
+                `;
                 claimBtn.disabled = false;
                 timerText.style.display = "none";
             }
@@ -114,6 +167,5 @@
             });
         });
     </script>
-
 </body>
 </html>
