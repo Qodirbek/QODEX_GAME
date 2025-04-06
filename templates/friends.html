@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do‘stlar | QODEX</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/friends.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="referral-box">
+            <input type="text" id="ref-link" value="{{ referral_link }}" readonly>
+            <button id="copy-btn" title="Havolani nusxalash">
+                <svg class="copy-icon" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/>
+                </svg>
+            </button>
+        </div>
+
+        <header class="header">
+            <h1>Do‘stlaringizni Taklif Qiling</h1>
+            <div class="coin-info">
+                <img src="{{ url_for('static', filename='images/coin.png') }}" alt="QODEX Coin" class="coin-icon">
+                <span class="coin-name">QODEX</span>
+                <span class="coin-amount">5,000</span>
+            </div>
+        </header>
+
+        <section class="friends-section">
+            <h2>Sizning Do‘stlaringiz</h2>
+            <div class="invited-users">
+                {% if friends | length > 0 %}
+                    <ul class="friend-list">
+                        {% for friend in friends %}
+                            <li>{{ friend }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="empty-friends">
+                        <img src="{{ url_for('static', filename='images/empty-friends.svg') }}" alt="Empty Friends" class="empty-icon">
+                        <p class="empty-text">Bo‘sh Do‘stlar Ro‘yxati</p>
+                        <p class="invite-text">Bu yerda sizning do‘stlaringiz bo‘ladi</p>
+                    </div>
+                {% endif %}
+            </div>
+            <p class="invite-message">Do‘stlaringizni taklif qiling va daromad oling. Qanchalik ko‘p do‘st bo‘lsa, shunchalik ko‘p daromad!</p>
+        </section>
+    </div>
+
+    {% include 'navbar.html' %}
+    <script src="{{ url_for('static', filename='js/friends.js') }}"></script>
+</body>
+</html>
