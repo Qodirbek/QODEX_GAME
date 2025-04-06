@@ -7,102 +7,123 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 </head>
 <body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <button class="menu-btn">☰</button>
+        <h1>Admin Panel</h1>
+    </div>
 
     <!-- Sidebar menyu -->
     <div class="sidebar">
-        <button class="close-btn">&times;</button>
+        <button class="close-btn">×</button>
         <h2>Admin Panel</h2>
         <ul>
-            <li><a href="#" id="users-tab">Users</a></li>
+            <li><a href="#" id="users-tab" class="active">Users</a></li>
             <li><a href="#" id="edit-users-tab">Edit Users</a></li>
             <li><a href="#" id="edit-tasks-tab">Edit Tasks</a></li>
         </ul>
     </div>
 
-    <!-- Navbar -->
-    <div class="navbar">
-        <button class="menu-btn">&#9776;</button>
-        <h1>Admin Panel</h1>
-    </div>
-
-    <!-- Users sahifasi -->
-    <div class="admin-container" id="users-section">
-        <h2>Users List</h2>
-        <button id="delete-no-id-users">Delete Users Without Telegram ID</button>
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Telegram ID</th>
-                    <th>Username</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Balance</th>
-                    <th>Wallet Address</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.telegram_id or "No ID" }}</td>
-                    <td>{{ user.username or "No username" }}</td>
-                    <td>{{ user.first_name or "No first name" }}</td>
-                    <td>{{ user.last_name or "No last name" }}</td>
-                    <td>{{ user.balance }}</td>
-                    <td>{{ user.wallet_address or "Not linked" }}</td>
-                    <td>
-                        <button class="delete-btn" data-id="{{ user.id }}">Delete</button>
-                    </td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="8">No users found</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Edit Users sahifasi -->
-    <div class="admin-container" id="edit-users-section" style="display: none;">
-        <h2>Edit User Balance</h2>
-        <form id="edit-user-form">
-            <label for="user-id">Enter Telegram ID or User ID:</label>
-            <input type="text" id="user-id" required>
-            <button type="submit">Search</button>
-        </form>
-
-        <div id="user-info" style="display: none;">
-            <h3>User Details</h3>
-            <p><strong>Username:</strong> <span id="user-username"></span></p>
-            <p><strong>First Name:</strong> <span id="user-firstname"></span></p>
-            <p><strong>Last Name:</strong> <span id="user-lastname"></span></p>
-            <p><strong>Current Balance:</strong> <span id="user-balance"></span></p>
-
-            <label for="new-balance">New Balance:</label>
-            <input type="number" id="new-balance" required>
-            <button id="save-balance">Save</button>
+    <!-- Main content -->
+    <div class="main-content">
+        <!-- Users sahifasi -->
+        <div class="admin-container" id="users-section">
+            <h2>Users List</h2>
+            <button id="delete-no-id-users" class="action-btn">Delete Users Without Telegram ID</button>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Telegram ID</th>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Balance</th>
+                        <th>Wallet Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.telegram_id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.balance }}</td>
+                        <td>{{ user.wallet_address }}</td>
+                        <td>
+                            <button class="delete-btn action-btn" data-id="{{ user.id }}">Delete</button>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8">No users found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </div>
 
-    <!-- Edit Tasks sahifasi -->
-    <div class="admin-container" id="edit-tasks-section" style="display: none;">
-        <h2>Edit Tasks</h2>
-        <form id="edit-task-form">
-            <label for="task-id">Enter Task ID:</label>
-            <input type="text" id="task-id" required>
-            <button type="submit">Search</button>
-        </form>
+        <!-- Edit Users sahifasi -->
+        <div class="admin-container" id="edit-users-section" style="display: none;">
+            <h2>Edit User Balance</h2>
+            <form id="edit-user-form">
+                <label for="user-id">Enter Telegram ID or User ID:</label>
+                <input type="text" id="user-id" name="user-id" placeholder="Telegram ID or User ID" required>
+                <button type="submit" class="action-btn">Search</button>
+            </form>
 
-        <div id="task-info" style="display: none;">
-            <h3>Task Details</h3>
-            <p><strong>Task Name:</strong> <span id="task-name"></span></p>
-            <p><strong>Description:</strong> <span id="task-desc"></span></p>
-            <label for="new-task-desc">New Description:</label>
-            <input type="text" id="new-task-desc">
-            <button id="save-task">Save</button>
+            <div id="user-info" style="display: none;">
+                <h3>User Details</h3>
+                <p><strong>Username:</strong> <span id="user-username"></span></p>
+                <p><strong>First Name:</strong> <span id="user-firstname"></span></p>
+                <p><strong>Last Name:</strong> <span id="user-lastname"></span></p>
+                <p><strong>Current Balance:</strong> <span id="user-balance"></span></p>
+
+                <label for="new-balance">New Balance:</label>
+                <input type="number" id="new-balance" name="new-balance" min="0" required>
+                <button id="save-balance" class="action-btn">Save</button>
+            </div>
+        </div>
+
+        <!-- Edit Tasks sahifasi -->
+        <div class="admin-container" id="edit-tasks-section" style="display: none;">
+            <h2>Edit Tasks</h2>
+            <form id="add-task-form">
+                <h3>Add New Task</h3>
+                <label for="task-name">Task Name:</label>
+                <input type="text" id="task-name" name="task-name" placeholder="Task Name" required>
+                <label for="task-desc">Description:</label>
+                <input type="text" id="task-desc" name="task-desc" placeholder="Task Description">
+                <label for="task-link">Link:</label>
+                <input type="url" id="task-link" name="task-link" placeholder="Task Link" required>
+                <button type="submit" class="action-btn">Add Task</button>
+            </form>
+
+            <form id="edit-task-form">
+                <h3>Edit Existing Task</h3>
+                <label for="task-id">Enter Task ID:</label>
+                <input type="text" id="task-id" name="task-id" placeholder="Task ID" required>
+                <button type="submit" class="action-btn">Search</button>
+            </form>
+
+            <div id="task-info" style="display: none;">
+                <h3>Task Details</h3>
+                <p><strong>Task Name:</strong> <span id="task-name-display"></span></p>
+                <p><strong>Description:</strong> <span id="task-desc-display"></span></p>
+                <p><strong>Link:</strong> <span id="task-link-display"></span></p>
+
+                <label for="new-task-name">New Task Name:</label>
+                <input type="text" id="new-task-name" name="new-task-name" placeholder="New Task Name">
+                <label for="new-task-desc">New Description:</label>
+                <input type="text" id="new-task-desc" name="new-task-desc" placeholder="New Description">
+                <label for="new-task-link">New Link:</label>
+                <input type="url" id="new-task-link" name="new-task-link" placeholder="New Link">
+                <button id="save-task" class="action-btn">Save</button>
+                <button id="delete-task" class="action-btn delete-btn">Delete Task</button>
+            </div>
         </div>
     </div>
 
