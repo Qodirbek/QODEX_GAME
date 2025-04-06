@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reyting | QODEX</title>
+
+    <!-- CSS fayllarni yuklash -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <!-- Foydalanuvchi o‘z reytingi (agar top-100 dan tashqarida bo‘lsa) -->
+        {% if user_rank is not none and user_rank > 100 %}
+        <div class="user-rank-box">
+            <h2>Sizning reytingingiz</h2>
+            <p>#{{ user_rank }} o‘rin | {{ user_balance or 0 }} QODEX</p>
+        </div>
+        {% endif %}
+
+        <!-- Top-100 ro‘yxat -->
+        <h1>Top 100 QODEX Foydalanuvchilari</h1>
+        <div class="leaderboard">
+            {% for rank, user in leaderboard %}
+            <div class="leaderboard-item {% if user.id == current_user_id %}current-user{% endif %}">
+                <span class="rank">#{{ rank }}</span>
+                <span class="username">{{ user.username or first_name or telegram_id }}</span>
+                <span class="balance">{{ user.balance or 0 }} QODEX</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/leaderboard.js') }}"></script>
+</body>
+</html>
