@@ -529,10 +529,10 @@ def delete_task():
     except Exception as e:
         return jsonify({"success": False, "message": f"Xatolik: {str(e)}"}), 500
 
-# Statik fayllar
-@routes.route("/tonconnect-manifest.json")
+# Statik fayllaar
+@routes.route("/tonconnect-manifest.json", methods=["GET"])
 def tonconnect_manifest():
-    return send_from_directory("static", "tonconnect-mani
+    return send_from_directory("static", "tonconnect-manifest.json")
 
 @routes.route("/favicon.ico")
 def favicon():
