@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Tasks | QODEX Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Tasklar ro‘yxati (Admin)</h1>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Link</th>
+                <th>Actions</th>
+            </tr>
+            {% for task in tasks %}
+            <tr>
+                <form method="POST" action="/admin/edit-task/{{ task.id }}">
+                    <td>{{ task.id }}</td>
+                    <td><input name="name" value="{{ task.name }}"></td>
+                    <td><input name="link" value="{{ task.link }}"></td>
+                    <td>
+                        <button type="submit">Save</button>
+                        <a href="/admin/delete-task/{{ task.id }}" class="delete-btn">Delete</a>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <hr>
+        <h2>Yangi Task Qo‘shish</h2>
+        <form method="POST" action="/admin/add-task">
+            <input name="name" placeholder="Task nomi" required>
+            <input name="link" placeholder="Task havolasi" required>
+            <button type="submit">Qo‘shish</button>
+        </form>
+    </div>
+</body>
+</html>
