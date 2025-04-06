@@ -533,3 +533,11 @@ def delete_task():
 @routes.route("/tonconnect-manifest.json")
 def tonconnect_manifest():
     return send_from_directory("static", "tonconnect-mani
+
+@routes.route("/favicon.ico")
+def favicon():
+    return send_from_directory("static/images", "favicon.ico", mimetype="image/vnd.microsoft.icon")
+
+@routes.route("/static/<path:filename>")
+def static_files(filename):
+    return send_from_directory("static", filename)
