@@ -1,0 +1,447 @@
+/* === Umumiy admin panel dizayni === */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7fc;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* === Navbar === */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #2c3e50;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.navbar h1 {
+    margin: 0;
+    font-size: 20px;
+    color: #ffffff;
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* === Menyu tugmasi === */
+.menu-btn {
+    font-size: 18px;
+    background: #3498db;
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.menu-btn:hover {
+    background: #2980b9;
+}
+
+/* === Sidebar menyu === */
+.sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    width: 260px;
+    height: 100%;
+    background: #2c3e50;
+    color: #ffffff;
+    transition: left 0.3s ease;
+    padding-top: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar h2 {
+    text-align: center;
+    color: #ffffff;
+    margin: 0 0 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    border-bottom: 1px solid #34495e;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.sidebar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar ul li:hover {
+    background: #1f2e40;
+}
+
+.sidebar ul li a.active {
+    background: #3498db;
+    color: #ffffff;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #e74c3c;
+}
+
+/* === Main content === */
+.main-content {
+    margin-top: 60px;
+    margin-left: 0;
+    padding: 20px;
+    flex: 1;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.shifted {
+    margin-left: 260px;
+}
+
+/* === Admin konteyneri === */
+.admin-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 25px;
+    background: #ffffff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow-x: auto;
+    border: 1px solid #dcdde1;
+}
+
+.admin-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.admin-container h3 {
+    color: #3498db;
+    margin: 15px 0 10px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* === Bo‘limlarni boshqarish === */
+#users-section,
+#edit-users-section,
+#edit-tasks-section {
+    display: none;
+}
+
+#users-section {
+    display: block; /* Dastlabki bo‘lim ko‘rinadi */
+}
+
+/* === Jadval dizayni === */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.admin-table th {
+    background-color: #3498db;
+    color: #ffffff;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.admin-table td {
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.admin-table tr:hover {
+    background-color: #f2f8ff;
+    transition: background 0.3s ease;
+}
+
+.admin-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* === Tugmalar dizayni === */
+.action-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    display: inline-block;
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+}
+
+.action-btn:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* Qizil tugmalar (o‘chirish) */
+.delete-btn {
+    background: #e74c3c;
+    color: #fff;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
+}
+
+/* Yashil tugmalar (saqlash va qo‘shish) */
+.green-btn,
+.action-btn:not(.delete-btn) {
+    background: #27ae60;
+    color: #fff;
+}
+
+.green-btn:hover,
+.action-btn:not(.delete-btn):hover {
+    background: #219150;
+}
+
+/* === Foydalanuvchi tahrirlash formasi === */
+#edit-user-form {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f4f6f9;
+    border-radius: 8px;
+    border: 1px solid #dcdde1;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+#edit-user-form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+#edit-user-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#edit-user-form input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* === Foydalanuvchi ma’lumotlari === */
+#user-info {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    background: #f4f6f9;
+    border-radius: 8px;
+    border: 1px solid #dcdde1;
+}
+
+#user-info p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+#user-info span {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* === Task qo‘shish va tahrirlash formalari === */
+#add-task-form,
+#edit-task-form {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 1px solid #dcdde1;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+#add-task-form label,
+#edit-task-form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+#add-task-form input,
+#edit-task-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+#add-task-form input:focus,
+#edit-task-form input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+#task-info {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    background: #f4f6f9;
+    border-radius: 8px;
+    border: 1px solid #dcdde1;
+}
+
+#task-info p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+#task-info span {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* === Jadval bo‘sh bo‘lsa === */
+.no-users {
+    text-align: center;
+    font-size: 16px;
+    color: #7f8c8d;
+    padding: 20px;
+}
+
+/* === Hover effekti === */
+.hover-effect:hover {
+    background: rgba(0, 0, 0, 0.05);
+    transition: background 0.3s ease;
+}
+
+/* === Mobil dizaynga moslashuv === */
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 15px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .action-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .menu-btn {
+        font-size: 16px;
+        padding: 8px 12px;
+    }
+
+    .sidebar {
+        width: 220px;
+        left: -220px;
+    }
+
+    .main-content.shifted {
+        margin-left: 220px;
+    }
+
+    #add-task-form input,
+    #edit-task-form input {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar h1 {
+        font-size: 18px;
+    }
+
+    .admin-container h2 {
+        font-size: 20px;
+    }
+
+    .admin-container h3 {
+        font-size: 18px;
+    }
+
+    #add-task-form input,
+    #edit-task-form input {
+        font-size: 14px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+/* === Jadvalni skroll qilish uchun moslashuv === */
+.table-scroll {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.table-scroll .admin-table {
+    min-width: 600px;
+}

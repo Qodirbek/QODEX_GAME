@@ -1,0 +1,253 @@
+/* Umumiy stillar */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f0f0f; /* Qora fon */
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+/* Pastdan sariq nur effekti */
+body::before {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: radial-gradient(circle at bottom, rgba(255, 215, 0, 0.3), transparent 70%);
+    z-index: -1;
+}
+
+/* Loading ekrani */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0f0f0f; /* Qora fon */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease; /* Yumshoq yashirish effekti */
+}
+
+.loading-img {
+    width: 100px;
+    height: 100px;
+    /* Aylanish animatsiyasi olib tashlandi, rasm to‘g‘ri turadi */
+}
+
+/* Container */
+.container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    height: calc(100vh - 80px); /* Navbar balandligi uchun joy */
+    overflow-y: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; /* Dastlab yashirin */
+    transition: opacity 0.5s ease; /* Yumshoq ko‘rinish effekti */
+}
+
+/* Profil bo‘limi */
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-icon {
+    animation: pulse 2s infinite;
+}
+
+.username {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFD700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* Balans bo‘limi */
+.balance-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 30px;
+}
+
+.balance-section h2 {
+    font-size: 20px;
+    color: #ddd;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.balance-icon {
+    animation: pulse 2s infinite;
+}
+
+/* Tanga bosish maydoni */
+.circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.2), transparent 70%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    position: relative;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.coin-img {
+    width: 80%;
+    height: 80%;
+    transition: transform 0.3s ease;
+}
+
+.circle:hover .coin-img {
+    transform: scale(1.1);
+}
+
+.rotating-coin {
+    animation: spin 10s linear infinite;
+}
+
+/* Claim tugmasi */
+#claim-btn {
+    background: linear-gradient(135deg, #00ffc3, #007bff);
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(0, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px 0;
+}
+
+#claim-btn:hover {
+    background: linear-gradient(135deg, #00aaff, #005bbb);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+#claim-btn:disabled {
+    background: #444;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.claim-icon, .timer-icon {
+    transition: transform 0.3s ease;
+}
+
+#claim-btn:hover .claim-icon,
+#claim-btn:hover .timer-icon {
+    transform: scale(1.2);
+}
+
+/* Taymer */
+#timer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    color: #ddd;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    margin-top: 15px;
+}
+
+.timer-icon {
+    animation: pulse 2s infinite;
+}
+
+#countdown {
+    color: #FFD700;
+    font-weight: bold;
+}
+
+/* Animatsiyalar */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive dizayn */
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    .profile-section {
+        gap: 8px;
+    }
+
+    .profile-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .username {
+        font-size: 20px;
+    }
+
+    .balance-section h2 {
+        font-size: 18px;
+    }
+
+    .balance-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .circle {
+        width: 150px;
+        height: 150px;
+    }
+
+    .coin-img {
+        width: 80%;
+        height: 80%;
+    }
+
+    .loading-img {
+        width: 80px;
+        height: 80px;
+    }
+
+    #claim-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    #timer {
+        font-size: 14px;
+    }
+}

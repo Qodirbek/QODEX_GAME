@@ -1,0 +1,237 @@
+/* 🌌 Umumiy sahifa uslubi */
+body {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a); /* Qoraga mo‘ljallangan gradient fon */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+    margin: 0;
+    padding-bottom: 80px; /* Pastki navbar uchun joy */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 📌 Wallet konteyneri */
+.wallet-container {
+    width: 90%;
+    max-width: 400px;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 🏆 Sarlavha */
+.wallet-title {
+    color: #FFD700;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.wallet-icon {
+    animation: pulse 2s infinite;
+}
+
+/* 👤 User ma'lumotlari */
+.user-info {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.user-info p {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-icon, .balance-icon {
+    animation: pulse 2s infinite;
+}
+
+/* 🔑 Wallet ma'lumotlari */
+#wallet-info {
+    display: none;
+    margin-top: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+#wallet-info p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#wallet-address {
+    font-weight: bold;
+    color: #FFD700;
+    word-break: break-word;
+    font-size: 16px;
+}
+
+.address-icon {
+    animation: pulse 2s infinite;
+}
+
+/* 🚀 Wallet tugmalari */
+.wallet-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wallet-btn {
+    background: linear-gradient(90deg, #32a852, #0088cc);
+    color: white;
+    font-size: 18px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease, transform 0.2s;
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.15);
+    width: 85%;
+    max-width: 320px;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.wallet-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+.connect-icon, .disconnect-icon, .send-icon {
+    transition: transform 0.3s ease;
+}
+
+.wallet-btn:hover .connect-icon,
+.wallet-btn:hover .disconnect-icon,
+.wallet-btn:hover .send-icon {
+    transform: scale(1.2);
+}
+
+/* ❌ Disconnect tugmasi */
+#disconnect-wallet {
+    background: #cc0000;
+    display: none;
+}
+
+#disconnect-wallet:hover {
+    opacity: 0.9;
+}
+
+/* 💳 Transaction qutisi */
+.transaction-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+/* 📦 Transaction tugmasi */
+#send-ton {
+    background: linear-gradient(90deg, #ff8c00, #ff4500);
+    font-weight: bold;
+}
+
+#send-ton:hover {
+    opacity: 0.9;
+}
+
+/* 🔄 Loading effekti */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 18px;
+    display: none;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.spinner-icon {
+    animation: spin 1s linear infinite;
+}
+
+.loading-overlay p {
+    color: #FFD700;
+    font-size: 18px;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+/* 🎭 Animatsiyalar */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* 📱 Mobil moslik */
+@media (max-width: 480px) {
+    .wallet-container {
+        width: 95%;
+        margin-top: 20px;
+    }
+
+    .wallet-title {
+        font-size: 24px;
+    }
+
+    .wallet-btn {
+        font-size: 16px;
+        padding: 10px;
+    }
+}

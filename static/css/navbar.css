@@ -1,0 +1,107 @@
+/* Navbarni ekranning pastiga joylashtirish */
+.navbar {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    background: rgba(0, 0, 0, 0.85); /* Qora fonda shaffoflik */
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4); /* Soyali effekt */
+    z-index: 1000; /* Boshqa elementlardan yuqori turishi uchun */
+}
+
+/* Har bir nav tugma */
+.navbar .nav-button {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background: none;
+    border: none;
+    padding: 5px 0;
+    transition: transform 0.2s ease, color 0.3s ease; /* Transform va rang o‘zgarishi uchun animatsiya */
+}
+
+/* Faol holatdagi tugma */
+.navbar .nav-button.active {
+    color: #00ffff; /* Faol tugma rangi (yashil-ko‘k) */
+}
+
+/* Tugma ichidagi icon va label */
+.navbar .icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* SVG ikonka */
+.navbar .icon {
+    width: 24px;
+    height: 24px;
+    fill: white; /* Oq rang dastlabki holatda */
+    transition: all 0.3s ease; /* Fill, transform va shadow uchun animatsiya */
+}
+
+/* Faol holatdagi ikonka */
+.navbar .nav-button.active .icon {
+    fill: #00ffff; /* Faol holatda yashil-ko‘k rang */
+    filter: drop-shadow(0 0 6px #00ffff); /* Yonish effekti */
+    transform: scale(1.2); /* Kattalashtirish */
+}
+
+/* Tugma ostidagi yozuv */
+.navbar .label {
+    font-size: 12px;
+    margin-top: 4px;
+    color: white;
+    font-weight: 500;
+    transition: color 0.3s ease; /* Rang o‘zgarishi uchun animatsiya */
+}
+
+/* Faol holatdagi yozuv */
+.navbar .nav-button.active .label {
+    color: #00ffff; /* Faol holatda yashil-ko‘k rang */
+}
+
+/* Hover effekti: yonishi va kattalashishi */
+.navbar .nav-button:hover .icon {
+    fill: #00ffff;
+    filter: drop-shadow(0 0 6px #00ffff);
+    transform: scale(1.2);
+}
+
+/* Hover effekti: yozuv rangi o‘zgarishi */
+.navbar .nav-button:hover .label {
+    color: #00ffff;
+}
+
+/* Active (bosilganda) effekti */
+.navbar .nav-button:active .icon {
+    fill: #00ffff;
+    filter: drop-shadow(0 0 6px #00ffff);
+    transform: scale(1.1); /* Bosilganda biroz kichrayadi */
+}
+
+/* Responsive: kichik ekranlar */
+@media (max-width: 480px) {
+    .navbar {
+        width: 95%; /* Kichik ekranlarda kengroq */
+        padding: 8px;
+        bottom: 10px; /* Ekranning pastidan biroz yuqoriroq */
+    }
+
+    .navbar .label {
+        font-size: 11px; /* Yozuv hajmini kichraytirish */
+    }
+
+    .navbar .icon {
+        width: 22px;
+        height: 22px; /* Ikonka hajmini kichraytirish */
+    }
+}

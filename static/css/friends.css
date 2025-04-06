@@ -1,0 +1,197 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    height: 100vh; /* Ekranga to‘liq moslash */
+    overflow: hidden; /* Sahifa katta-kichik qilinmasin */
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    height: calc(100vh - 100px); /* Navbar uchun joy qoldirish */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.referral-box {
+    display: flex;
+    gap: 10px;
+    margin: 20px auto;
+    align-items: center;
+}
+
+.referral-box input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.referral-box button {
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.copy-icon {
+    width: 24px;
+    height: 24px;
+    color: #ffc107;
+    transition: color 0.3s;
+}
+
+.referral-box button:hover .copy-icon {
+    color: #e0a800;
+}
+
+.header {
+    margin: 20px 0;
+}
+
+.header h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.coin-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.coin-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.coin-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffc107;
+}
+
+.coin-amount {
+    font-size: 20px;
+    color: #555;
+}
+
+.friends-section {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+ tía}
+
+.friends-section h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.invited-users {
+    max-height: 300px; /* Skroll uchun cheklov */
+    overflow-y: auto; /* Do‘stlar ko‘p bo‘lsa skroll */
+    text-align: left;
+    margin-top: 30px;
+}
+
+.friend-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.friend-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    color: #555;
+}
+
+.empty-friends {
+    text-align: center;
+    padding: 20px;
+}
+
+.empty-icon {
+    width: 150px; /* Kattaroq SVG */
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+.empty-text {
+    font-size: 18px;
+    color: #888;
+}
+
+.invite-text {
+    font-size: 16px;
+    color: #666;
+}
+
+.invite-message {
+    font-size: 14px;
+    color: #777;
+    margin: 20px 0;
+    font-style: italic;
+}
+
+/* Navbar stilizatsiyasi */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-button {
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    flex: 1;
+}
+
+.icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.label {
+    font-size: 12px;
+}
+
+.nav-button:hover {
+    color: #ffc107;
+}
+
+.nav-button.active {
+    color: #ffc107;
+}
